@@ -8,9 +8,16 @@
 
 namespace App\Models\DataModels;
 
-
 use Illuminate\Support\Facades\DB;
 
+/**
+ * Notes:php artisan admin:make CommentController --model=App\Models\DataModels\CommentModel
+ * User: LiYi
+ * Date: 2019/5/29
+ * Time: 23:22
+ * Class CommentModel
+ * @package App\Models\DataModels
+ */
 class CommentModel extends Model
 {
     protected $table = 'comments';

@@ -8,7 +8,14 @@
 
 namespace App\Models\DataModels;
 
-
+/**
+ * Notes:php artisan admin:make HeaderController --model=App\Models\DataModels\HeaderModel
+ * User: LiYi
+ * Date: 2019/5/29
+ * Time: 23:20
+ * Class HeaderModel
+ * @package App\Models\DataModels
+ */
 class HeaderModel extends Model
 {
     protected $table = "headers";

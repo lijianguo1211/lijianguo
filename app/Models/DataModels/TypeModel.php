@@ -11,6 +11,14 @@ namespace App\Models\DataModels;
 use Encore\Admin\Grid;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * Notes:php artisan admin:make TypeController --model=App\Models\DataModels\TypeModel
+ * User: LiYi
+ * Date: 2019/5/29
+ * Time: 23:25
+ * Class TypeModel
+ * @package App\Models\DataModels
+ */
 class TypeModel extends Model
 {
     protected $table = "types";

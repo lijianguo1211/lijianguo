@@ -8,7 +8,14 @@
 
 namespace App\Models\DataModels;
 
-
+/**
+ * Notes:php artisan admin:make AskContentController --model=App\Models\DataModels\AskContentModel
+ * User: LiYi
+ * Date: 2019/5/29
+ * Time: 23:24
+ * Class AskContentModel
+ * @package App\Models\DataModels
+ */
 class AskContentModel extends Model
 {
     protected $table = "ask_content";

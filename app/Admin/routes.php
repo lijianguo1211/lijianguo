@@ -11,9 +11,15 @@ Route::group([
 ], function (Router $router) {
 
     $router->get('/', 'HomeController@index')->name('admin.home');
-    //$router->get('type', 'TypeController@index')->name('admin.home');
-    //$router->get('type/create', 'TypeController@create')->name('admin.type.create');
 
     $router->resource('type', TypeController::class);
+    $router->resource('ask',AskController::class);
+    $router->resource('ask_content',AskContentController::class);
+    $router->resource('blog_content',BlogContentController::class);
+    $router->resource('blog',BlogController::class);
+    $router->resource('comment',CommentController::class);
+    $router->resource('header',HeaderController::class);
+    $router->resource('image',ImageController::class);
+    $router->resource('right_top',RightTopController::class);
 
 });

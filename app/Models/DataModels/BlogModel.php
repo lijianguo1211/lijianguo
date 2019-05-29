@@ -11,6 +11,14 @@ namespace App\Models\DataModels;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * Notes:php artisan admin:make BlogController --model=App\Models\DataModels\BlogModel
+ * User: LiYi
+ * Date: 2019/5/29
+ * Time: 23:24
+ * Class BlogModel
+ * @package App\Models\DataModels
+ */
 class BlogModel extends Model
 {
     protected $table = "blogs";

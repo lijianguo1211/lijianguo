@@ -11,10 +11,16 @@ namespace App\Models\DataModels;
 
 use Illuminate\Support\Facades\Storage;
 
+/**
+ * Notes:php artisan admin:make ImageController --model=App\Models\DataModels\ImageModel
+ * User: LiYi
+ * Date: 2019/5/29
+ * Time: 23:21
+ * Class ImageModel
+ * @package App\Models\DataModels
+ */
 class ImageModel extends Model
 {
-
-
     protected $table = "image";
 
     protected $primaryKey = 'id';

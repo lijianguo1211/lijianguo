@@ -8,8 +8,17 @@
 
 namespace App\Models\DataModels;
 
+use Encore\Admin\Grid;
 use EndaEditor;
 
+/**
+ * Notes:php artisan admin:make AskController --model=App\Models\DataModels\AskModel
+ * User: LiYi
+ * Date: 2019/5/29
+ * Time: 23:23
+ * Class AskModel
+ * @package App\Models\DataModels
+ */
 class AskModel extends Model
 {
     /**
@@ -84,5 +93,37 @@ class AskModel extends Model
         $result['label'] = explode(',',$result['label']);
         $result['content'] =  EndaEditor::MarkDecode($result['content']);
         return $result;
+    }
+
+    public function grid()
+    {
+        $grid = new Grid($this);
+
+        $grid->column('id', '主键');
+        $grid->column('user_id', '用户')->display(function($user_id) {
+            return UserModel::where('id', $user_id)->value('username');
+        });
+        $grid->column('title', '标题');
+        $grid->column('label', '标签')->display(function($label){
+            return explode(',', $label);
+        })->label();
+        $grid->column('reading_value', '阅读量')->badge();
+        $grid->column('content', '简介')->display(function($content) {
+            return mb_substr($content, 0, 30).'...';
+        });
+        $grid->column('created_at', '创建时间');
+        $grid->column('updated_at', '修改时间');
+
+        $grid->filter(function($filter){
+
+            // 去掉默认的id过滤器
+            $filter->disableIdFilter();
+
+            // 在这里添加字段过滤器
+            $filter->like('title', '标题');
+
+        });
+
+        return $grid;
     }
 }

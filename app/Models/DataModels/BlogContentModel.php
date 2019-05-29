@@ -8,7 +8,14 @@
 
 namespace App\Models\DataModels;
 
-
+/**
+ * Notes:php artisan admin:make BlogContentController --model=App\Models\DataModels\BlogContentModel
+ * User: LiYi
+ * Date: 2019/5/29
+ * Time: 23:24
+ * Class BlogContentModel
+ * @package App\Models\DataModels
+ */
 class BlogContentModel extends Model
 {
     protected $table = "blog_content";

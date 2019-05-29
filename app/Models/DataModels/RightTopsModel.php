@@ -8,7 +8,14 @@
 
 namespace App\Models\DataModels;
 
-
+/**
+ * Notes:php artisan admin:make RightTopController --model=App\Models\DataModels\RightTopsModel
+ * User: LiYi
+ * Date: 2019/5/29
+ * Time: 23:21
+ * Class RightTopsModel
+ * @package App\Models\DataModels
+ */
 class RightTopsModel extends Model
 {
     protected $table = "right_tops";
