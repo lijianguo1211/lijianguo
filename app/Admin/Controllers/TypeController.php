@@ -6,7 +6,6 @@ use App\Models\DataModels\TypeModel;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
-use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
 use Illuminate\Http\Request;
@@ -20,6 +19,11 @@ class TypeController extends Controller
 
     use HasResourceActions;
 
+    /**
+     * TypeController constructor.
+     * @param TypeModel $type
+     * @param Request $request
+     */
     public function __construct(TypeModel $type, Request $request)
     {
         $this->type  = $type;
@@ -84,13 +88,6 @@ class TypeController extends Controller
             ->description('填写分类')
             ->body($this->form());
     }
-
-    /**
-     * Make a grid builder.
-     *
-     * @return Grid
-     */
-
 
     /**
      * Make a show builder.
@@ -191,6 +188,15 @@ class TypeController extends Controller
         return $validators;
     }
 
+    /**
+     * Notes: 编辑提交
+     * Name: save
+     * User: LiYi
+     * Date: 2019/5/29
+     * Time: 22:07
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|void
+     */
     public function save($id)
     {
         $validator = $this->validates('save');
