@@ -9,16 +9,21 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class TypeController extends Controller
 {
     private $type;
 
+    private $input;
+
     use HasResourceActions;
 
-    public function __construct(TypeModel $type)
+    public function __construct(TypeModel $type, Request $request)
     {
-        $this->type = $type;
+        $this->type  = $type;
+        $this->input = $request->all();
     }
 
     /**
@@ -61,8 +66,8 @@ class TypeController extends Controller
     public function edit($id, Content $content)
     {
         return $content
-            ->header('Edit')
-            ->description('description')
+            ->header('编辑分类')
+            ->description('编辑分类')
             ->body($this->form()->edit($id));
     }
 
@@ -75,8 +80,8 @@ class TypeController extends Controller
     public function create(Content $content)
     {
         return $content
-            ->header('Create')
-            ->description('description')
+            ->header('添加分类')
+            ->description('填写分类')
             ->body($this->form());
     }
 
@@ -115,15 +120,91 @@ class TypeController extends Controller
 
         $type = (new TypeModel())->getType();
 
-        $form->select('name','分级显示')->options(function() use ($type){
-            $array = [];
+        $form->select('pid','分级显示')->options(function() use ($type) {
+            $array = [0 => '顶级分类'];
             foreach ($type as $k => $item) {
                 $array[$item->id] = str_repeat('|__',$item->level).$item->name;
             }
-
             return $array;
         });
 
         return $form;
+    }
+
+    /**
+     * Notes: 表单提交
+     * Name: store
+     * User: LiYi
+     * Date: 2019/5/29
+     * Time: 21:49
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|void
+     */
+    public function store()
+    {
+        $validator = $this->validates('store');
+
+        if ($validator->fails()) {
+            return redirect('type/create')
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $result = $this->type->store($this->input);
+
+        if (!$result) {
+            return admin_toastr('分类添加失败...', 'error');
+        }
+
+        return admin_toastr('分类添加成功...', 'success');
+    }
+
+    /**
+     * Notes: 数据验证
+     * Name: validates
+     * User: LiYi
+     * Date: 2019/5/29
+     * Time: 21:49
+     * @param string $methods
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+    protected function validates(string $methods)
+    {
+        $rule = [
+            'name' => 'required|unique:types|max:15',
+            'pid'  => 'required',
+        ];
+        $message = [
+            'name.required' => '分类名字必须填写',
+            'name.unique' => '分类名已存在',
+            'name.max' => '分类名最多15个字符',
+            'pid.required' => '父级分类必须选择',
+        ];
+        switch ($methods) {
+            case 'store':
+                $validators = Validator::make($this->input, $rule, $message);
+                break;
+            case 'save':
+                $validators = Validator::make($this->input, $rule, $message);
+                break;
+        }
+
+        return $validators;
+    }
+
+    public function save($id)
+    {
+        $validator = $this->validates('save');
+
+        if ($validator->fails()) {
+            return redirect('type/create')
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $result = $this->type->saves($this->input, $id);
+
+        if (!$result) {
+            return admin_toastr('分类添加失败...', 'error');
+        }
     }
 }

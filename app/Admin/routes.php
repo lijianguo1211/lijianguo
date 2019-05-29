@@ -11,8 +11,8 @@ Route::group([
 ], function (Router $router) {
 
     $router->get('/', 'HomeController@index')->name('admin.home');
-    $router->get('type', 'TypeController@index')->name('admin.home');
-    $router->get('type/create', 'TypeController@create')->name('admin.type.create');
+    //$router->get('type', 'TypeController@index')->name('admin.home');
+    //$router->get('type/create', 'TypeController@create')->name('admin.type.create');
 
     $router->resource('type', TypeController::class);
 
