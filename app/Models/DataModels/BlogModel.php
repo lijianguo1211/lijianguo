@@ -8,7 +8,6 @@
 
 namespace App\Models\DataModels;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
 /**

@@ -7,11 +7,11 @@
  */
 
 namespace App\Models\DataModels;
-use Watson\Rememberable\Rememberable;
 use \Illuminate\Database\Eloquent\Model as Eloquent;
+use App\Admin\Traits\TraitMessage;
 
 
 abstract class Model extends Eloquent
 {
-    //use Rememberable;
+    use TraitMessage;
 }

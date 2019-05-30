@@ -52,9 +52,10 @@ class RightTopsModel extends Model
     public function insertRightTops(array $data)
     {
         try {
-            $result = $this::create($data);
+            $this::create($data);
+            $result = true;
         } catch (\Exception $e) {
-            \Log::error('添加每日一语失败：'.$e->getMessage());
+            self::errorMessgegLog($e, '每日一语');
             $result = false;
         }
 

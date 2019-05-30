@@ -138,11 +138,21 @@ class TypeController extends Controller
      */
     public function store()
     {
-        $validator = $this->validates('store');
+        $rule = [
+            'name' => 'required|unique:types|max:15',
+            'pid'  => 'required',
+        ];
+        $message = [
+            'name.required' => '分类名字必须填写',
+            'name.unique' => '分类名已存在',
+            'name.max' => '分类名最多15个字符',
+            'pid.required' => '父级分类必须选择',
+        ];
+        $validators = Validator::make($this->input, $rule, $message);
 
-        if ($validator->fails()) {
+        if ($validators->fails()) {
             return redirect('type/create')
-                ->withErrors($validator)
+                ->withErrors($validators)
                 ->withInput();
         }
 

@@ -8,8 +8,6 @@
 
 namespace App\Models\DataModels;
 
-use Illuminate\Database\Eloquent\Model;
-
 class UserDetailsModel extends Model
 {
     protected $table = "user_details";

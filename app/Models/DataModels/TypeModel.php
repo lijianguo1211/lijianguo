@@ -77,7 +77,7 @@ class TypeModel extends Model
             DB::commit();
             $result = true;
         } catch (\Exception $e) {
-            $this->errorMessgegLog($e);
+            self::errorMessgegLog($e, '分类');
             DB::rollBack();
             $result = false;
         }
@@ -128,7 +128,7 @@ class TypeModel extends Model
            DB::commit();
            $result = true;
        } catch (\Exception $e) {
-           $this->errorMessgegLog($e);
+           self::errorMessgegLog($e, '分类');
            DB::rollBack();
            $result = false;
        }
@@ -156,30 +156,11 @@ class TypeModel extends Model
             DB::commit();
             $result = true;
         } catch (\Exception $e) {
-            $this->errorMessgegLog($e);
+            self::errorMessgegLog($e, '分类');
             DB::rollBack();
             $result = false;
         }
 
         return $result;
     }
-
-    /**
-     * Notes: 错误消息日志记录
-     * Name: errorMessgegLog
-     * User: LiYi
-     * Date: 2019/5/29
-     * Time: 22:04
-     * @param $e
-     * @return mixed
-     */
-    protected function errorMessgegLog($e)
-    {
-        return \Log::error('分类添加失败文件：'.$e->getFile().
-            "\n分类添加失败行数：".$e->getLine().
-            "\n分类添加失败代码：".$e->getCode().
-            "\n分类添加失败原因：".$e->getMessage()
-        );
-    }
-
 }
