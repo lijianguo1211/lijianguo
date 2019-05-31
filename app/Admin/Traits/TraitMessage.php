@@ -4,6 +4,8 @@
 namespace App\Admin\Traits;
 
 
+use App\Models\DataModels\TypeModel;
+
 trait TraitMessage
 {
     /**
@@ -22,5 +24,29 @@ trait TraitMessage
             "\n分类添加失败代码：".$e->getCode().
             "\n分类添加失败原因：".$e->getMessage()
         );
+    }
+
+    public function getType($pid=0,$target = [])
+    {
+        $type = TypeModel::where('pid','=',$pid)->get();
+        static $n = 1;
+        foreach($type as $k => $v) {
+            $v->level = $n;
+            $target[$v->id] = $v;
+            $n++;
+            $target = $this->getType($v->id,$target);
+            $n--;
+        }
+        return $target;
+    }
+
+    public function getSelectType()
+    {
+        $array = [];
+        foreach ($this->getType() as $k => $item) {
+            $array[$item->id] = str_repeat('__', $item->level) . $item->name;
+        }
+
+        return $array;
     }
 }

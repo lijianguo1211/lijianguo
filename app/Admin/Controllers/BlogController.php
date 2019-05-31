@@ -9,10 +9,18 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
+use App\Admin\Traits\TraitMessage;
 
 class BlogController extends Controller
 {
-    use HasResourceActions;
+    use HasResourceActions, TraitMessage;
+
+    private $blog;
+
+    public function __construct(BlogModel $blog)
+    {
+        $this->blog = $blog;
+    }
 
     /**
      * Index interface.
@@ -22,10 +30,11 @@ class BlogController extends Controller
      */
     public function index(Content $content)
     {
+        $blog = $this->blog->grid();
         return $content
-            ->header('Index')
-            ->description('description')
-            ->body($this->grid());
+            ->header('文章')
+            ->description('文章列表')
+            ->body($blog);
     }
 
     /**
@@ -67,32 +76,12 @@ class BlogController extends Controller
     public function create(Content $content)
     {
         return $content
-            ->header('Create')
-            ->description('description')
+            ->header('添加文章')
+            ->description('一点一滴的耕耘')
             ->body($this->form());
     }
 
-    /**
-     * Make a grid builder.
-     *
-     * @return Grid
-     */
-    protected function grid()
-    {
-        $grid = new Grid(new BlogModel);
 
-        $grid->id('Id');
-        $grid->title('Title');
-        $grid->info('Info');
-        $grid->label('Label');
-        $grid->user_id('User id');
-        $grid->reading_volume('Reading volume');
-        $grid->delete_status('Delete status');
-        $grid->created_at('Created at');
-        $grid->updated_at('Updated at');
-
-        return $grid;
-    }
 
     /**
      * Make a show builder.
@@ -124,14 +113,16 @@ class BlogController extends Controller
      */
     protected function form()
     {
-        $form = new Form(new BlogModel);
+        $form = new Form($this->blog);
+        $form->model()->leftjoin('blog_content as bc', 'blogs.id', '=', 'bc.blog_id');
 
-        $form->text('title', 'Title');
-        $form->text('info', 'Info');
-        $form->number('label', 'Label');
-        $form->number('user_id', 'User id');
-        $form->number('reading_volume', 'Reading volume');
-        $form->switch('delete_status', 'Delete status');
+        $form->text('title', '文章标题');
+        $form->textarea('info', '文章简介');
+        $form->multipleSelect('label', '文章类型')->options(self::getSelectType());
+
+        $form->switch('delete_status', '是否删除');
+
+        $form->editor('content_md', '内容');
 
         return $form;
     }

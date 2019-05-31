@@ -8,6 +8,7 @@
 
 namespace App\Models\DataModels;
 
+use Encore\Admin\Grid;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -138,5 +139,59 @@ class BlogModel extends Model
         $result = $this->select('user_id')->where('id','=',$id)->first();
 
         return $result;
+    }
+
+    /**
+     * Make a grid builder.
+     *
+     * @return Grid
+     */
+    public function grid()
+    {
+        $grid = new Grid($this);
+        $grid->model()->select('blogs.*', 'bg.type')->leftjoin('blog_content as bg', 'blogs.id', '=', 'bg.blog_id');
+
+        $grid->column('id', '主键')->sortable();
+        $grid->column('title', '文章标题');
+        $grid->column('info', '简介')->display(function($info) {
+            return mb_substr($info, 0, 30) . '...';
+        });
+        $grid->column('label', '文章分类')->display(function($label) {
+            return TypeModel::find($label)->name;
+        })->label();
+        $grid->column('user_id', '作者')->display(function($user_id) {
+            return UserModel::find($user_id)->username;
+        })->label('default');
+        $grid->column('reading_volume', '阅读量')->badge();
+        $grid->column('type', '类型')->display(function($type) {
+            switch ($type) {
+                case 0:
+                $typeName = '文章';
+                    break;
+                case 1:
+                    $typeName = '图片描述';
+                    break;
+                case 2:
+                    $typeName = '心情';
+                    break;
+            }
+            return $typeName;
+        });
+        $grid->column('delete_status', '是否删除')->display(function($delete_status) {
+            return $delete_status ? '是' : '否';
+        });
+        $grid->column('created_at', '创建时间')->sortable();
+        $grid->column('updated_at', '修改时间')->sortable();
+
+        $grid->filter(function($filter){
+            // 去掉默认的id过滤器
+            $filter->disableIdFilter();
+
+            // 在这里添加字段过滤器
+            $filter->like('name', 'name');
+
+        });
+
+        return $grid;
     }
 }
