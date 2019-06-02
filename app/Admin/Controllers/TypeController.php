@@ -151,7 +151,7 @@ class TypeController extends Controller
         $validators = Validator::make($this->input, $rule, $message);
 
         if ($validators->fails()) {
-            return redirect('type/create')
+            return redirect('admin/type/create')
                 ->withErrors($validators)
                 ->withInput();
         }

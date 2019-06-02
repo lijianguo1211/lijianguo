@@ -10,6 +10,7 @@ namespace App\Models\DataModels;
 
 use Encore\Admin\Grid;
 use Illuminate\Support\Facades\DB;
+use phpDocumentor\Reflection\DocBlock\Tags\Throws;
 
 /**
  * Notes:php artisan admin:make BlogController --model=App\Models\DataModels\BlogModel
@@ -28,13 +29,22 @@ class BlogModel extends Model
     protected $fillable = ['title','info','label','user_id'];
 
     /**
-     * 一对一关系选择
+     * Notes:
+     * Name: blogContent
+     * User: LiYi
+     * Date: 2019/6/2
+     * Time: 19:58
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-
-    /*public function blogContent()
+    public function blogContent()
     {
-        return $this->belongsTo('App\Models\DataModels\BlogContentModel','blog_id');
-    }*/
+        return $this->hasOne(BlogContentModel::class, 'blog_id');
+    }
+
+    public function tag()
+    {
+        return $this->belongsTo(TagModel::class);
+    }
 
     public function getBlog($admin = false)
     {
@@ -149,7 +159,8 @@ class BlogModel extends Model
     public function grid()
     {
         $grid = new Grid($this);
-        $grid->model()->select('blogs.*', 'bg.type')->leftjoin('blog_content as bg', 'blogs.id', '=', 'bg.blog_id');
+        $grid->model()->select('blogs.*', 'bg.type')
+            ->leftjoin('blog_content as bg', 'blogs.id', '=', 'bg.blog_id');
 
         $grid->column('id', '主键')->sortable();
         $grid->column('title', '文章标题');
@@ -177,6 +188,9 @@ class BlogModel extends Model
             }
             return $typeName;
         });
+
+        $grid->column('tag.tags_name','标签')->label();
+
         $grid->column('delete_status', '是否删除')->display(function($delete_status) {
             return $delete_status ? '是' : '否';
         });
@@ -193,5 +207,32 @@ class BlogModel extends Model
         });
 
         return $grid;
+    }
+
+    public function stores(array $blog, array $blog_content, array $tag)
+    {
+        DB::beginTransaction();
+        try {
+            $tag_id = (new TagModel)->insertGetId($tag);
+
+            if (!$tag_id) throw new \Exception("文章标签插入失败");
+
+            $blog['tag_id'] = $tag_id;
+            $blog_id = $this->insertGetId($blog);
+
+            if (!$blog_id) throw new \Exception("文章插入失败");
+
+            $blog_content['blog_id'] = $blog_id;
+            BlogContentModel::create($blog_content);
+
+            DB::commit();
+            $result = ['status' => 1, 'info' => '文章插入成功'];
+        } catch (\Exception $e) {
+            self::errorMessgegLog($e, '文章');
+            DB::rollBack();
+            $result = ['status' => 0, 'info' => $e->getPrevious()];
+        }
+
+        return $result;
     }
 }

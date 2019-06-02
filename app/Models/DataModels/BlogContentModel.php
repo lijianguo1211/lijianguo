@@ -26,8 +26,8 @@ class BlogContentModel extends Model
 
     public $timestamps= false;
 
-    /*public function blogs()
+    public function blog()
     {
-        return $this->hasOne('App\Models\DataModels\BlogModel');
-    }*/
+        return $this->belongsTo(BlogModel::class);
+    }
 }
