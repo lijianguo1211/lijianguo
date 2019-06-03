@@ -26,7 +26,7 @@ class BlogModel extends Model
 
     protected $primaryKey = 'id';
 
-    protected $fillable = ['title','info','label','user_id'];
+    protected $fillable = ['title', 'info', 'label', 'user_id', 'tag_id'];
 
     /**
      * Notes:
@@ -152,8 +152,11 @@ class BlogModel extends Model
     }
 
     /**
-     * Make a grid builder.
-     *
+     * Notes:列表显示
+     * Name: grid
+     * User: LiYi
+     * Date: 2019/6/3
+     * Time: 21:26
      * @return Grid
      */
     public function grid()
@@ -209,20 +212,32 @@ class BlogModel extends Model
         return $grid;
     }
 
+    /**
+     * Notes: 插入文章
+     * Name: stores
+     * User: LiYi
+     * Date: 2019/6/3
+     * Time: 21:25
+     * @param array $blog
+     * @param array $blog_content
+     * @param array $tag
+     * @return array
+     */
     public function stores(array $blog, array $blog_content, array $tag)
     {
         DB::beginTransaction();
         try {
-            $tag_id = (new TagModel)->insertGetId($tag);
+            $tag_id = TagModel::create($tag);
 
-            if (!$tag_id) throw new \Exception("文章标签插入失败");
+            if (!$tag_id->id) throw new \Exception("文章标签插入失败");
 
-            $blog['tag_id'] = $tag_id;
-            $blog_id = $this->insertGetId($blog);
+            $blog['tag_id'] = $tag_id->id;
+            $blog_id = $this::create($blog);
 
-            if (!$blog_id) throw new \Exception("文章插入失败");
+            if (!$blog_id->id) throw new \Exception("文章插入失败");
 
-            $blog_content['blog_id'] = $blog_id;
+            $blog_content['blog_id'] = $blog_id->id;
+
             BlogContentModel::create($blog_content);
 
             DB::commit();

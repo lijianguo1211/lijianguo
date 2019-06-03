@@ -14,4 +14,13 @@ class TagModel extends Model
     {
         return $this->hasOne(BlogModel::class);
     }
+
+    public function getTagsNameAttribute($value)
+    {
+        $data = json_decode($value, true);
+        if (is_array($data)) {
+            return $data;
+        }
+        return (array)$value;
+    }
 }

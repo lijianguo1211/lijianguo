@@ -2,8 +2,10 @@
 
 namespace App\Admin\Controllers;
 
+use App\Admin\Extensions\TableExcelDownload;
 use App\Models\DataModels\BlogModel;
 use App\Http\Controllers\Controller;
+use App\Models\DataModels\UserModel;
 use Carbon\Carbon;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
@@ -13,6 +15,9 @@ use Encore\Admin\Show;
 use App\Admin\Traits\TraitMessage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Maatwebsite\ExcelLight\Excel;
+use Maatwebsite\ExcelLight\Reader;
+use Maatwebsite\ExcelLight\Writer;
 
 class BlogController extends Controller
 {
@@ -104,15 +109,19 @@ class BlogController extends Controller
     {
         $show = new Show(BlogModel::findOrFail($id));
 
-        $show->id('Id');
-        $show->title('Title');
-        $show->info('Info');
-        $show->label('Label');
-        $show->user_id('User id');
-        $show->reading_volume('Reading volume');
-        $show->delete_status('Delete status');
-        $show->created_at('Created at');
-        $show->updated_at('Updated at');
+        $show->id('主键');
+        $show->title('文章标题');
+        $show->info('文章简介');
+        $show->label('文章分类');
+        $show->user_id('作者')->as(function($user_id) {
+            return UserModel::where('id', $user_id)->value('username');
+        });
+        $show->reading_volume('阅读量');
+        $show->delete_status('是否删除')->as(function($delete_status) {
+            return $delete_status ? '删除' : '未删除';
+        });
+        $show->created_at('创建时间');
+        $show->updated_at('修改时间');
 
         return $show;
     }
@@ -140,13 +149,24 @@ class BlogController extends Controller
         return $form;
     }
 
-    public function store()
+    /**
+     * Notes: 表单
+     * Name: store
+     * User: LiYi
+     * Date: 2019/6/3
+     * Time: 21:57
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|void
+     */
+    public function store(Reader $reader, Writer $writer)
     {
+        (new TableExcelDownload())->blogExcel(new Excel($reader,$writer));
+        //dd((new TableExcelDownload())->tables());
+        dd(123456);
         $rule = [
             'title' => 'required|max:20',
             'info'  => 'required|max:255',
             'label'  => 'required',
-            'content_md'  => 'required',
+            'content'  => 'required',
         ];
         $message = [
             'title.required' => '文章标题必须填写',
@@ -154,7 +174,7 @@ class BlogController extends Controller
             'info.required' => '文章简介必须填写',
             'info.max' => '文章简介最多255个字符',
             'label.required' => '文章分类必须选择',
-            'content_md.required' => '文章内容必须添加',
+            'content.required' => '文章内容必须添加',
         ];
         $validators = Validator::make($this->input, $rule, $message);
 
@@ -169,18 +189,15 @@ class BlogController extends Controller
             'label'         => $this->input['label'],
             'user_id'       => 1,
             'delete_status' => $this->input['delete_status'] === 'on' ? 1 : 0,
-            'created_at'    => date('Y-m-d H:i:S'),
         ];
         $blog_content = [
-            'content'    => $this->input['content_md'],
-            'content_md' => $this->input['content_md'],
+            'content'    => $this->input['content'],
+            'content_md' => $this->input['content'],
             'type'       => 0
         ];
         $tag = [
             'tags_name'  => json_encode($this->input['tag']['tags_name']),
-            'created_at' => date('Y-m-d H:i:S')
         ];
-
         $result = $this->blog->stores($blog, $blog_content, $tag);
 
         if (!$result['status']) {
