@@ -9,21 +9,35 @@ use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Log\Events\MessageLogged;
 
-class LogToEmailEvent
+class LogToEmailEvent extends MessageLogged
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $params;
+    public $level;
 
+    /**
+     * The log message.
+     *
+     * @var string
+     */
+    public $message;
+
+    /**
+     * The log context.
+     *
+     * @var array
+     */
+    public $context;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(array $params)
+    public function __construct($level, $message, array $context = [])
     {
-        $this->params = $params;
+        parent::__construct($level, $message, $context = []);
     }
 
     /**
