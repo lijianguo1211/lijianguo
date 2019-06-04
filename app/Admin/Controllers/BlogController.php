@@ -3,6 +3,7 @@
 namespace App\Admin\Controllers;
 
 use App\Admin\Extensions\TableExcelDownload;
+use App\Models\DataModels\BlogContentModel;
 use App\Models\DataModels\BlogModel;
 use App\Http\Controllers\Controller;
 use App\Models\DataModels\UserModel;
@@ -94,7 +95,7 @@ class BlogController extends Controller
         return $content
             ->header('添加文章')
             ->description('一点一滴的耕耘')
-            ->body($this->form());
+            ->body($this->form(0));
     }
 
 
@@ -131,9 +132,14 @@ class BlogController extends Controller
      *
      * @return Form
      */
-    protected function form()
+    protected function form(int $id)
     {
         $form = new Form($this->blog);
+
+        $content = BlogContentModel::where('blog_id', $id)->first();
+
+        $content = $content->content_md ? $content->content_md : '';
+
         $form->model()->leftjoin('blog_content as bc', 'blogs.id', '=', 'bc.blog_id');
 
         $form->text('title', '文章标题')->placeholder('添加文章的标题');
@@ -144,7 +150,7 @@ class BlogController extends Controller
 
         $form->switch('delete_status', '是否删除');
 
-        $form->editor('content', '内容');
+        $form->editor('content', '内容')->default($content);
 
         return $form;
     }

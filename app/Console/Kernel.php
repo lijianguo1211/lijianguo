@@ -17,6 +17,7 @@ class Kernel extends ConsoleKernel
         Commands\PullMsg::class,
         Commands\Login::class,
         Commands\EmailToMsg::class,
+        Commands\CreateRunTable::class,
     ];
 
     /**

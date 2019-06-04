@@ -11,6 +11,7 @@ Route::group([
 ], function (Router $router) {
 
     $router->get('/', 'HomeController@index')->name('admin.home');
+    $router->get('test/download/excel', 'HomeController@excels');
 
     $router->resource('type', TypeController::class);
     $router->resource('ask',AskController::class);

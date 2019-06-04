@@ -86,6 +86,13 @@
       <path value="$PROJECT_DIR$/vendor/encore/laravel-admin" />
       <path value="$PROJECT_DIR$/vendor/box/spout" />
       <path value="$PROJECT_DIR$/vendor/maatwebsite/laravel-excel-light" />
+      <path value="$PROJECT_DIR$/vendor/liyiexcel/.idea" />
+      <path value="$PROJECT_DIR$/vendor/liyiexcel/config" />
+      <path value="$PROJECT_DIR$/vendor/liyiexcel/src" />
+      <path value="$PROJECT_DIR$/vendor/markbaker/matrix" />
+      <path value="$PROJECT_DIR$/vendor/markbaker/complex" />
+      <path value="$PROJECT_DIR$/vendor/phpoffice/phpspreadsheet" />
+      <path value="$PROJECT_DIR$/vendor/maatwebsite/excel" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.1" />

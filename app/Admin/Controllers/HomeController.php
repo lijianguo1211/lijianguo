@@ -7,6 +7,7 @@ use Encore\Admin\Controllers\Dashboard;
 use Encore\Admin\Layout\Column;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Layout\Row;
+use App\Admin\Extensions\TableExcelDownload;
 
 class HomeController extends Controller
 {
@@ -30,5 +31,10 @@ class HomeController extends Controller
                     $column->append(Dashboard::dependencies());
                 });
             });
+    }
+
+    public function excels()
+    {
+        (new TableExcelDownload())->blogExcel();
     }
 }

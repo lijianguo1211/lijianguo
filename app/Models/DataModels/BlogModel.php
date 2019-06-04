@@ -8,6 +8,7 @@
 
 namespace App\Models\DataModels;
 
+use App\Admin\Extensions\BlogsExporter;
 use Encore\Admin\Grid;
 use Illuminate\Support\Facades\DB;
 use phpDocumentor\Reflection\DocBlock\Tags\Throws;
@@ -208,6 +209,8 @@ class BlogModel extends Model
             $filter->like('name', 'name');
 
         });
+
+        $grid->exporter(new BlogsExporter());
 
         return $grid;
     }

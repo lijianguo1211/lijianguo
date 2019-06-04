@@ -3,65 +3,84 @@
 
 namespace App\Admin\Extensions;
 
+use App\Admin\Extensions\XLSXWriter;
+use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Models\DataModels\BlogModel;
-use Maatwebsite\ExcelLight\Excel;
-use Maatwebsite\ExcelLight\Reader;
-use Maatwebsite\ExcelLight\Writer;
-use Maatwebsite\ExcelLight\Row;
-use Maatwebsite\ExcelLight\Sheet;
+use Illuminate\Support\Facades\DB;
 
 class TableExcelDownload
 {
-    private $excel;
-
     public function __construct()
     {
 
     }
 
-    public function blogExcel(Excel $excel)
+    public function blogExcel()
     {
-        /*$excel->create(function (Writer $writer) {
-            $writer->sheet('sheet1', function (Writer $sheet) {
-                $data = $this->tables();
-                foreach ($data as $k => $item) {
-                    $sheet->rows($item);
-                }
-            });
-        })->export(storage_path('workbook.xlsx'));*/
-        $excel->create(function (Writer $writer) {
-            $writer->sheet('sheet1', function (Writer $sheet) {
-                $sheet->rows([
-                    [1, 2, 3],
-                    [4, 5, 6]
-                ]);
+        $excel = new XLSXWriter();
+        $excel->writeSheetHeader('Sheet1', [
+            '主键ID'=>'integer',
+            '作者'=>'string',
+            '手机'=>'string',
+            '电话'=>'string',
+            '详情'=>'string',
+        ] );
 
-                // Add more rows
-                $sheet->rows([
-                    [7, 8, 9],
-                    [10, 11, 12]
-                ]);
-            });
-        })->export(storage_path('workbook.xlsx'));
+        foreach ($this->tables() as $k => $item) {
+            $excel->writeSheetRow('Sheet1', $item);
+        }
+        $fileLocation = 'test.xlsx';
+        $excel->writeToFile($fileLocation);
+
+        header('Content-Description: File Transfer');
+        header("Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        header("Content-Disposition: attachment; filename=".basename($fileLocation));
+        header("Content-Transfer-Encoding: binary");
+        header("Expires: 0");
+        header("Pragma: public");
+        header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+        header('Content-Length: ' . filesize($fileLocation)); //Remove
+
+        ob_clean();
+        flush();
+
+        readfile($fileLocation);
+        unlink($fileLocation);
+        exit(0);
     }
 
     public function tables()
     {
-        $result = BlogModel::select(
-            'blogs.*',
-            'u.username',
-            'u.email',
-            'u.phone',
-            't.tags_name'
-        )
-            ->leftJoin('users as u', 'blogs.user_id', '=', 'u.id')
-            ->leftJoin('tags as t', 'blogs.tag_id', '=', 't.id')
-            ->limit(10)
-            ->get()
-            ->toArray();
+        $excel = new XLSXWriter();
+        DB::table('tests')->select('id', 'user', 'phone', 'email', 'info')
+            ->orderBy('id')->chunk(5, function($tests) use ($excel) {
+            $excel->writeSheetHeader('Sheet1', [
+                '主键ID'=>'integer',
+                '作者'=>'string',
+                '手机'=>'string',
+                '电话'=>'string',
+                '详情'=>'string',
+            ]);
+            $fileLocation = 'test.xlsx';
+            header('Content-Description: File Transfer');
+            header("Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+            header("Content-Disposition: attachment; filename=".basename($fileLocation));
+            header("Content-Transfer-Encoding: binary");
+            header("Expires: 0");
+            header("Pragma: public");
+            header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+            header('Content-Length: ' . filesize($fileLocation)); //Remove
 
-        if (is_array($result)) {
-            return $result;
-        }
+            foreach ($tests as $item) {
+                $excel->writeSheetRow('Sheet1', (array)$item);
+            }
+            $excel->writeToFile($fileLocation);
+            ob_clean();
+            flush();
+            readfile($fileLocation);
+            unlink($fileLocation);
+            exit(0);
+        });
+
     }
 }
