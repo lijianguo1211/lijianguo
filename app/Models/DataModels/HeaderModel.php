@@ -8,6 +8,8 @@
 
 namespace App\Models\DataModels;
 
+use Encore\Admin\Grid;
+
 /**
  * Notes:php artisan admin:make HeaderController --model=App\Models\DataModels\HeaderModel
  * User: LiYi
@@ -25,12 +27,23 @@ class HeaderModel extends Model
     protected $fillable = ['title','url','priority','type'];
 
     /**
+     * Notes: 导航表单提交
+     * Name: store
+     * User: LiYi
+     * Date: 2019/6/4
+     * Time: 22:13
      * @param array $data
-     * @return mixed
+     * @return array
      */
-    public function add(array $data)
+    public function store(array $data)
     {
-        $result = $this::create($data);
+        try {
+            $res = $this::create($data);
+            $result = ['status' => $res->id, 'info' => '导航添加成功。。。'];
+        } catch (\Exception $e) {
+            self::errorMessgegLog($e, '导航');
+            $result = ['status' => 0, 'info' => '导航添加成功。。。'];
+        }
 
         return $result;
     }
@@ -88,5 +101,32 @@ class HeaderModel extends Model
         $result = $this->select('title','url')->where('type','=',$type)->orderBy('priority','DESC')->limit(5)->get()->toArray();
 
         return $result;
+    }
+
+    /**
+     * Notes: 导航列表
+     * Name: grid
+     * User: LiYi
+     * Date: 2019/6/4
+     * Time: 21:25
+     * @return Grid
+     */
+    public function grid()
+    {
+        $grid = new Grid($this);
+
+        $grid->column('id', '主键')->sortable();
+        $grid->column('title', '标题');
+        $grid->column('url', 'url')->display(function($url) {
+            return env('APP_URL') . '/' . $url;
+        })->link();
+        $grid->column('priority', '排序')->sortable();
+        $grid->column('type', '显示位置')->display(function($type) {
+            return $type === 0 ? '头部导航' : '飞机链接';
+        })->sortable();
+        $grid->column('created_at', '创建时间');
+        $grid->column('updated_at', '修改时间');
+
+        return $grid;
     }
 }

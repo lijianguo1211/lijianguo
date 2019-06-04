@@ -49,4 +49,12 @@ trait TraitMessage
 
         return $array;
     }
+
+    public function getConfigHeader()
+    {
+        $data = arsort(config('config.header'));
+        foreach ($data as $k => $item) {
+
+        }
+    }
 }

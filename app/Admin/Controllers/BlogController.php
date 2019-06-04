@@ -165,9 +165,6 @@ class BlogController extends Controller
      */
     public function store(Reader $reader, Writer $writer)
     {
-        (new TableExcelDownload())->blogExcel(new Excel($reader,$writer));
-        //dd((new TableExcelDownload())->tables());
-        dd(123456);
         $rule = [
             'title' => 'required|max:20',
             'info'  => 'required|max:255',
