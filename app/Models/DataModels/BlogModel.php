@@ -210,7 +210,7 @@ class BlogModel extends Model
 
         });
 
-        $grid->exporter(new BlogsExporter());
+        //$grid->exporter(new BlogsExporter());
 
         return $grid;
     }

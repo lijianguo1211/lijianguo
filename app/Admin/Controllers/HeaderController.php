@@ -9,10 +9,22 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class HeaderController extends Controller
 {
     use HasResourceActions;
+
+    private $header;
+
+    private $input;
+
+    public function __construct(HeaderModel $header, Request $request)
+    {
+        $this->input  = $request->all();
+        $this->header = $header;
+    }
 
     /**
      * Index interface.
@@ -25,7 +37,7 @@ class HeaderController extends Controller
         return $content
             ->header('Index')
             ->description('description')
-            ->body($this->grid());
+            ->body($this->header->grid());
     }
 
     /**
@@ -67,29 +79,9 @@ class HeaderController extends Controller
     public function create(Content $content)
     {
         return $content
-            ->header('Create')
-            ->description('description')
+            ->header('添加导航')
+            ->description('一心一意')
             ->body($this->form());
-    }
-
-    /**
-     * Make a grid builder.
-     *
-     * @return Grid
-     */
-    protected function grid()
-    {
-        $grid = new Grid(new HeaderModel);
-
-        $grid->id('Id');
-        $grid->title('Title');
-        $grid->url('Url');
-        $grid->priority('Priority');
-        $grid->type('Type');
-        $grid->created_at('Created at');
-        $grid->updated_at('Updated at');
-
-        return $grid;
     }
 
     /**
@@ -120,13 +112,48 @@ class HeaderController extends Controller
      */
     protected function form()
     {
-        $form = new Form(new HeaderModel);
+        $form = new Form($this->header);
 
-        $form->text('title', 'Title');
-        $form->url('url', 'Url');
-        $form->switch('priority', 'Priority');
-        $form->switch('type', 'Type');
+        $form->text('title', '标题')->default('');
+        $form->url('url', 'url')
+            ->default(env('APP_URL'))
+            ->help('url必须是输入网址类型的参数');
+        $form->select('priority', '排序')
+            ->options(array_reverse(config('config.header')))->default('');
+        $form->select('type', '链接类型')
+            ->options(config('config.linkType'))->default('');
 
         return $form;
+    }
+
+    public function store()
+    {
+        $rule = [
+            'title' => 'required|unique|max:10',
+            'url' => 'required|unique|max:20',
+        ];
+        $message = [
+            'title.required' => '标题必须选择',
+            'title.unique' => '标题已存在在',
+            'title.max' => '标题最多10个字符',
+            'url.required' => 'URL必须填写',
+            'url.unique' => 'URL已存在',
+            'url.max' => 'url最多20个字符',
+        ];
+
+        $validators = Validator::make($this->input, $rule, $message);
+
+        if ($validators->fails()) {
+            return redirect('admin/blog/header')
+                ->withErrors($validators)
+                ->withInput();
+        }
+
+        $result = $this->header->store($this->input);
+
+        if ($result['status'] === 0) {
+            return admin_toastr($result['info'] . '...', 'error');
+        }
+        return admin_toastr($result['info'] . '...', 'success');
     }
 }
