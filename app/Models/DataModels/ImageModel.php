@@ -9,6 +9,8 @@
 namespace App\Models\DataModels;
 
 
+use App\Admin\Extensions\SwitchButton;
+use Encore\Admin\Grid;
 use Illuminate\Support\Facades\Storage;
 
 /**
@@ -66,5 +68,50 @@ class ImageModel extends Model
             ->toArray();
 
         return $result;
+    }
+
+    /**
+     * Make a grid builder.
+     *
+     * @return Grid
+     */
+    public function grid()
+    {
+        $grid = new Grid($this);
+
+        $grid->column('id','Id');
+        $grid->column('title','标题');
+        $grid->column('content','描述')->display(function($content) {
+            return "<span title='{$content}'>" . str_limit($content, 20, '...') ."</span>";
+        });
+        $grid->column('label','标签')->display(function($label) {
+            return self::getLabel($label);
+        })->label();
+
+        $grid->column('user_id','作者')->display(function($user_id) {
+            return self::getUser($user_id);
+        })->badge('primary');
+
+        $grid->column('image_path','图片地址')->display(function($image_path) {
+            return "<span title='{$image_path}'>" . str_limit($image_path, 20, '...') ."</span>";
+
+        });
+        $grid->column('is_to_examine','审核')->display(function($is_to_examine) {
+
+        });
+        $grid->column('to_examine_content','原因')->badge();
+        $grid->column('is_delete','是否删除')->display(function($is_delete) {
+            return (new SwitchButton(
+                $this->id,
+                '',
+                'is_delete',
+                $is_delete
+            ))->returnHtml();
+        });
+
+        $grid->column('created_at','添加时间');
+        $grid->column('updated_at','修改时间');
+
+        return $grid;
     }
 }

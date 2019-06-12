@@ -14,6 +14,16 @@ class ImageController extends Controller
 {
     use HasResourceActions;
 
+    private $model;
+
+    private $input;
+
+    public function __construct(ImageModel $imageModel)
+    {
+        $this->model = $imageModel;
+        $this->input = request()->all();
+    }
+
     /**
      * Index interface.
      *
@@ -22,10 +32,11 @@ class ImageController extends Controller
      */
     public function index(Content $content)
     {
+        $grid = $this->model->grid();
         return $content
             ->header('Index')
             ->description('description')
-            ->body($this->grid());
+            ->body($grid);
     }
 
     /**
@@ -70,30 +81,6 @@ class ImageController extends Controller
             ->header('Create')
             ->description('description')
             ->body($this->form());
-    }
-
-    /**
-     * Make a grid builder.
-     *
-     * @return Grid
-     */
-    protected function grid()
-    {
-        $grid = new Grid(new ImageModel);
-
-        $grid->id('Id');
-        $grid->title('Title');
-        $grid->content('Content');
-        $grid->label('Label');
-        $grid->image_path('Image path');
-        $grid->is_to_examine('Is to examine');
-        $grid->to_examine_content('To examine content');
-        $grid->is_delete('Is delete');
-        $grid->user_id('User id');
-        $grid->created_at('Created at');
-        $grid->updated_at('Updated at');
-
-        return $grid;
     }
 
     /**
