@@ -84,9 +84,11 @@ class ImageModel extends Model
         $grid->column('content','描述')->display(function($content) {
             return "<span title='{$content}'>" . str_limit($content, 20, '...') ."</span>";
         });
-        $grid->column('label','标签')->display(function($label) {
+        $grid->column('label','分类')->display(function($label) {
             return self::getLabel($label);
         })->label();
+
+        $grid->column('tag_id', '标签')->label();
 
         $grid->column('user_id','作者')->display(function($user_id) {
             return self::getUser($user_id);

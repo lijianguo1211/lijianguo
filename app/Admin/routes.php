@@ -12,6 +12,7 @@ Route::group([
 
     $router->get('/', 'HomeController@index')->name('admin.home');
     $router->get('test/download/excel', 'HomeController@excels');
+    $router->post('img_upload', 'UploadImageController@upload');
 
     $router->resource('type', TypeController::class);
     $router->resource('ask',AskController::class);
