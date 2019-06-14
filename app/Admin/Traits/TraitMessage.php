@@ -47,7 +47,6 @@ trait TraitMessage
         foreach ($this->getType() as $k => $item) {
             $array[$item->id] = str_repeat('__', $item->level) . $item->name;
         }
-
         return $array;
     }
 
