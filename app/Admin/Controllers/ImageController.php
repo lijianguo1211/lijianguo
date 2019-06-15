@@ -9,10 +9,21 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
+use Illuminate\Support\Facades\Validator;
 
 class ImageController extends Controller
 {
     use HasResourceActions;
+
+    private $model;
+
+    private $input;
+
+    public function __construct(ImageModel $imageModel)
+    {
+        $this->model = $imageModel;
+        $this->input = request()->all();
+    }
 
     /**
      * Index interface.
@@ -22,10 +33,10 @@ class ImageController extends Controller
      */
     public function index(Content $content)
     {
+        $grid = $this->model->grid();
         return $content
-            ->header('Index')
-            ->description('description')
-            ->body($this->grid());
+            ->header('列表')
+            ->body($grid);
     }
 
     /**
@@ -55,7 +66,7 @@ class ImageController extends Controller
         return $content
             ->header('Edit')
             ->description('description')
-            ->body($this->form()->edit($id));
+            ->body($this->form($id)->edit($id));
     }
 
     /**
@@ -67,33 +78,8 @@ class ImageController extends Controller
     public function create(Content $content)
     {
         return $content
-            ->header('Create')
-            ->description('description')
-            ->body($this->form());
-    }
-
-    /**
-     * Make a grid builder.
-     *
-     * @return Grid
-     */
-    protected function grid()
-    {
-        $grid = new Grid(new ImageModel);
-
-        $grid->id('Id');
-        $grid->title('Title');
-        $grid->content('Content');
-        $grid->label('Label');
-        $grid->image_path('Image path');
-        $grid->is_to_examine('Is to examine');
-        $grid->to_examine_content('To examine content');
-        $grid->is_delete('Is delete');
-        $grid->user_id('User id');
-        $grid->created_at('Created at');
-        $grid->updated_at('Updated at');
-
-        return $grid;
+            ->header('添加')
+            ->body($this->form(0));
     }
 
     /**
@@ -126,19 +112,88 @@ class ImageController extends Controller
      *
      * @return Form
      */
-    protected function form()
+    protected function form(int $id)
     {
-        $form = new Form(new ImageModel);
+        $form = new Form($this->model);
+        if (empty($id)) {
+            $form->setTitle('添加热点图片');
+        }
+        $form->text('title', '标题')
+            ->placeholder('添加标题');
 
-        $form->text('title', 'Title');
-        $form->text('content', 'Content');
-        $form->switch('label', 'Label');
-        $form->text('image_path', 'Image path');
-        $form->switch('is_to_examine', 'Is to examine');
-        $form->text('to_examine_content', 'To examine content')->default('待审核');
-        $form->switch('is_delete', 'Is delete');
-        $form->number('user_id', 'User id');
+        $form->textarea('content', '简介')
+            ->placeholder('添加简介');
+
+        $form->tags('tag_id', '标签')
+            ->placeholder('标记标签')
+            ->default('Li')
+            ->help('可以添加多个标签');
+
+        $form->select('label', '选择分类')
+            ->placeholder('选择图片分类');
+
+        $form->image('image_path', '上传图片')
+            ->name(function ($image_path) {
+            return 'admin.liyi.'.date('Ymdhis').uniqid().$image_path->guessExtension();
+        })->placeholder('选择图片')
+          ->help('单张图片上传');
+
+        $form->image('image_path', '上传图片')
+            ->removable()
+            ->addElementClass('apk_upload')->options([
+            'showPreview' => false,
+            'allowedFileExtensions'=>[''],
+            'showUpload'=>true,
+            'uploadAsync' =>true,
+            'uploadUrl' => '/admin/img_upload',
+            'uploadExtraData' => [
+                '_token'    => csrf_token(),
+                '_method'   => 'POST',
+            ],
+        ]);
+
+        $form->switch('is_delete', '是否删除')
+            ->help('选择是否删除，删除即不显示');
 
         return $form;
+    }
+
+    public function store()
+    {
+
+        $rule = [
+            'title'      => 'required|max:20',
+            'content'    => 'required|max:255',
+            //'label'      => 'required',
+            'is_delete'  => 'required',
+            'image_path' => 'image|file'
+        ];
+
+        $validators = Validator::make(request()->all(), $rule);
+
+        if ($validators->fails()) {
+            return redirect('admin/blog/create')
+                ->withErrors($validators)
+                ->withInput();
+        }
+
+        $tags = [
+            'tags_name' => json_encode(array_filter(request()->get('tag_id')))
+        ];
+        $delete = request('is_delete');
+        switch ($delete) {
+            case 'on':
+                $delete = 1;
+                break;
+            case 'off':
+                $delete = 0;
+                break;
+        }
+        $image = [
+            'title' => request('title'),
+            'content' => request('content'),
+            'label'  => request('label'),
+            'is_delete' => $delete
+        ];
     }
 }

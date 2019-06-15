@@ -16,6 +16,7 @@ use App\Models\DataModels\ImageModel;
 use App\Models\DataModels\RightTopsModel;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 
 class IndexController extends BaseController

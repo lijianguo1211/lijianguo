@@ -5,6 +5,7 @@ namespace App\Admin\Traits;
 
 
 use App\Models\DataModels\TypeModel;
+use App\Models\DataModels\UserModel;
 
 trait TraitMessage
 {
@@ -56,5 +57,45 @@ trait TraitMessage
         foreach ($data as $k => $item) {
 
         }
+    }
+
+    /**
+     * Notes: 查询标签
+     * Name: getLabel
+     * User: LiYi
+     * Date: 2019/6/12
+     * Time: 22:29
+     * @param int $id
+     * @return string
+     */
+    public static function getLabel(int $id):string
+    {
+        $value = TypeModel::where('id', $id)->value('name');
+
+        if (!empty($value)) {
+            return $value;
+        }
+
+        return '未知';
+    }
+
+    /**
+     * Notes: 查询用户名
+     * Name: getUser
+     * User: LiYi
+     * Date: 2019/6/12
+     * Time: 22:32
+     * @param int $id
+     * @return string
+     */
+    public static function getUser(int $id):string
+    {
+        $value = UserModel::where('id', $id)->value('username');
+
+        if (!empty($value)) {
+            return $value;
+        }
+
+        return 'LiYi';
     }
 }
