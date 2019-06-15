@@ -64,7 +64,7 @@ class ImageController extends Controller
     public function edit($id, Content $content)
     {
         return $content
-            ->header('Edit')
+            ->header('编辑')
             ->description('description')
             ->body($this->form($id)->edit($id));
     }
@@ -129,16 +129,14 @@ class ImageController extends Controller
             ->default('Li')
             ->help('可以添加多个标签');
 
-        $form->select('label', '选择分类')
+        $form->select('label', '选择分类')->options($this->getSelectType())
             ->placeholder('选择图片分类');
 
         $form->image('image_path', '上传图片')
-            ->name(function ($image_path) {
-            return 'admin.liyi.'.date('Ymdhis').uniqid().$image_path->guessExtension();
-        })->placeholder('选择图片')
-          ->help('单张图片上传');
+            ->uniqueName()->placeholder('选择图片')
+            ->help('单张图片上传');
 
-        $form->image('image_path', '上传图片')
+        /*$form->image('image_path', '上传图片')
             ->removable()
             ->addElementClass('apk_upload')->options([
             'showPreview' => false,
@@ -150,7 +148,7 @@ class ImageController extends Controller
                 '_token'    => csrf_token(),
                 '_method'   => 'POST',
             ],
-        ]);
+        ]);*/
 
         $form->switch('is_delete', '是否删除')
             ->help('选择是否删除，删除即不显示');
@@ -158,13 +156,20 @@ class ImageController extends Controller
         return $form;
     }
 
+    /**
+     * Notes: 添加
+     * Name: store
+     * User: LiYi
+     * Date: 2019/6/14
+     * Time: 22:39
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|void
+     */
     public function store()
     {
-
         $rule = [
             'title'      => 'required|max:20',
             'content'    => 'required|max:255',
-            //'label'      => 'required',
+            'label'      => 'required',
             'is_delete'  => 'required',
             'image_path' => 'image|file'
         ];
@@ -177,6 +182,12 @@ class ImageController extends Controller
                 ->withInput();
         }
 
+        $image = request()->file('image_path');
+
+        ;
+        $res = $image->move(config('filesystems.disks.admin.root'), 'liyi_' . date('Ymdhis') . '_'. uniqid() . $image->getClientOriginalName());
+        $image_path = config('filesystems.disks.admin.url') . '/' . $res->getFilename();
+        // config('filesystems.disks.admin.url') . '/' .
         $tags = [
             'tags_name' => json_encode(array_filter(request()->get('tag_id')))
         ];
@@ -193,7 +204,25 @@ class ImageController extends Controller
             'title' => request('title'),
             'content' => request('content'),
             'label'  => request('label'),
-            'is_delete' => $delete
+            'is_delete' => $delete,
+            'image_path' => $image_path
         ];
+
+        $result = $this->model->imageStore($tags, $image);
+
+        if (!$result['status']) {
+            return admin_toastr($result['info'] . '...', 'error');
+        }
+        return admin_toastr($result['info'] . '...', 'success');
+    }
+
+    public function destroy($id)
+    {
+        $result = $this->model->destory($id);
+
+        if (!$result['status']) {
+            return admin_toastr($result['info'] . '...', 'error');
+        }
+        return admin_toastr($result['info'] . '...', 'success');
     }
 }
