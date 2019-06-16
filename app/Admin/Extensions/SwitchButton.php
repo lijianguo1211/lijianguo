@@ -8,22 +8,78 @@ use Encore\Admin\Admin;
 
 class SwitchButton
 {
+    /**
+     * Notes: 主键id
+     * class_name: SwitchButton
+     * User: LiYi
+     * Date: 2019/6/15
+     * Time: 22:30
+     * @var int
+     */
     private $id;
 
+    /**
+     * Notes:状态字段
+     * class_name: SwitchButton
+     * User: LiYi
+     * Date: 2019/6/15
+     * Time: 22:30
+     * @var string
+     */
     private $column;
 
+    /**
+     * Notes: 状态值
+     * class_name: SwitchButton
+     * User: LiYi
+     * Date: 2019/6/15
+     * Time: 22:30
+     * @var string
+     */
     private $columnValue;
 
+    /**
+     * Notes: 提交url
+     * class_name: SwitchButton
+     * User: LiYi
+     * Date: 2019/6/15
+     * Time: 22:30
+     * @var string
+     */
     private $url;
 
+    /**
+     * Notes: 提交方法
+     * class_name: SwitchButton
+     * User: LiYi
+     * Date: 2019/6/15
+     * Time: 22:29
+     * @var string
+     */
     private $method;
 
+    /**
+     * Notes: 按钮设置
+     * class_name: SwitchButton
+     * User: LiYi
+     * Date: 2019/6/15
+     * Time: 22:29
+     * @var array
+     */
     protected $states = [
         'on'  => ['value' => 1, 'text' => 'ON', 'color' => 'primary'],
         'off' => ['value' => 0, 'text' => 'OFF', 'color' => 'warning'],
     ];
 
-    public function __construct(int $id, string $url, string $column, string $columnValue, string $method = '_PUT')
+    /**
+     * SwitchButton constructor.设置参数
+     * @param int $id
+     * @param string $url
+     * @param string $column
+     * @param string $columnValue
+     * @param string $method
+     */
+    public function __construct(int $id, string $url, string $column, string $columnValue, string $method = 'POST')
     {
         $this->id          = $id;
         $this->url         = $url;
@@ -32,11 +88,27 @@ class SwitchButton
         $this->method      = $method;
     }
 
+    /**
+     * Notes: 得到class
+     * Name: getClass
+     * User: LiYi
+     * Date: 2019/6/15
+     * Time: 22:28
+     * @return string
+     */
     private function getClass():string
     {
         return 'grid-switch-'.str_replace('.', '-', $this->column);
     }
 
+    /**
+     * Notes: 编辑js
+     * Name: scriptJs
+     * User: LiYi
+     * Date: 2019/6/15
+     * Time: 22:28
+     * @return array|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     private function scriptJs()
     {
         $class = $this->getClass();
@@ -57,14 +129,15 @@ $('.$class').bootstrapSwitch({
 
         $.ajax({
             url: "$this->url/" + pk,
-            type: "POST",
+            type: "$this->method",
             data: {
                 "$this->column": value,
                 _token: LA.token,
-                _method: "$this->method"
+                'type': 'switch'
             },
             success: function (data) {
-                toastr.success(data.message);
+                console.log(data);
+                toastr.success(data.info);
             }
         });
     }
@@ -74,6 +147,14 @@ EOT;
         return Admin::script($script);
     }
 
+    /**
+     * Notes: 输出状态按钮
+     * Name: returnHtml
+     * User: LiYi
+     * Date: 2019/6/15
+     * Time: 22:27
+     * @return string
+     */
     public function returnHtml()
     {
         $this->scriptJs();
@@ -81,7 +162,7 @@ EOT;
         $checked = $this->states['on']['value'] == $this->columnValue ? 'checked' : '';
 
         return <<<EOT
-        <input type="checkbox" class="$class" $checked data-key="$this->columnValue" />
+        <input type="checkbox" class="$class" $checked data-key="$this->id" />
 EOT;
     }
 }

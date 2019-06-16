@@ -104,13 +104,18 @@ class ImageModel extends Model
 
         });
         $grid->column('is_to_examine','审核')->display(function($is_to_examine) {
-
+            return (new SwitchButton(
+                $this->id,
+                'image/to_examine',
+                'is_to_examine',
+                $is_to_examine
+            ))->returnHtml();
         });
         $grid->column('to_examine_content','原因')->badge();
         $grid->column('is_delete','是否删除')->display(function($is_delete) {
             return (new SwitchButton(
                 $this->id,
-                '',
+                'image/is_delete',
                 'is_delete',
                 $is_delete
             ))->returnHtml();
@@ -174,5 +179,21 @@ class ImageModel extends Model
        }
 
        return $result;
+    }
+
+    public function toExamine(int $id, array $data)
+    {
+        try {
+            $res = $this::where('id', $id)->first();
+            $res->is_to_examine      = $data['is_to_examine'];
+            $res->to_examine_content = $data['to_examine_content'];
+            $res->save();
+            $result = ['status' => true, 'info' => '热点图片审核成功'];
+        } catch (\Exception $e) {
+            self::errorMessgegLog($e, '热点图片');
+            $result = ['status' => false, 'info' => $e->getMessage()];
+        }
+
+        return $result;
     }
 }
