@@ -76,3 +76,5 @@ https://packagist.laravel-china.org
 平时做项目想要使用composer，就可以在里面搜索想要的轮子，然后下载就欧克了。比如下载PHP的框架laravel,打开cmd,输入
 `composer create-project laravel/laravel`,就可以了。
 
+[github地址，欢迎star](https://github.com/lijianguo1211/lijianguo/tree/phpmd)
+
