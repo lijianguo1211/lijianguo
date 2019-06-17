@@ -43,7 +43,6 @@ trait TraitMessage
 
     public function getSelectType()
     {
-        $array = [];
         foreach ($this->getType() as $k => $item) {
             $array[$item->id] = str_repeat('__', $item->level) . $item->name;
         }
