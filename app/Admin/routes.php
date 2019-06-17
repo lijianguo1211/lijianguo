@@ -21,7 +21,16 @@ Route::group([
     $router->resource('blog',BlogController::class);
     $router->resource('comment',CommentController::class);
     $router->resource('header',HeaderController::class);
+
     $router->resource('image',ImageController::class);
+    $router->post('image/to_examine/{id}', 'ImageController@toExamine')
+        ->name('image.to_examine');
+    $router->post('image/is_delete/{id}', 'ImageController@destroy')
+        ->name('image.destroy');
+
+
     $router->resource('right_top',RightTopController::class);
+
+    $router->resource('city', CityController::class);
 
 });

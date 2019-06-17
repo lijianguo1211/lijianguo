@@ -6,7 +6,6 @@ use App\Models\DataModels\ImageModel;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
-use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
 use Illuminate\Support\Facades\Validator;
@@ -216,13 +215,52 @@ class ImageController extends Controller
         return admin_toastr($result['info'] . '...', 'success');
     }
 
+    /**
+     * Notes: 删除
+     * Name: destroy
+     * User: LiYi
+     * Date: 2019/6/15
+     * Time: 21:35
+     * @param $id
+     */
     public function destroy($id)
     {
         $result = $this->model->destory($id);
 
-        if (!$result['status']) {
-            return admin_toastr($result['info'] . '...', 'error');
+        if (request()->get('type') == 'switch') {
+            return response()->json($result);
+        } else {
+            if (!$result['status']) {
+                return admin_toastr($result['info'] . '...', 'error');
+            }
+            return admin_toastr($result['info'] . '...', 'success');
         }
-        return admin_toastr($result['info'] . '...', 'success');
+    }
+
+    /**
+     * Notes: 审核
+     * Name: toExamine
+     * User: LiYi
+     * Date: 2019/6/15
+     * Time: 22:11
+     * @param $id
+     */
+    public function toExamine($id)
+    {
+        if (request()->get('is_to_examine') == 'on') {
+            $array = [
+                'is_to_examine'      => 1,
+                'to_examine_content' => '通过',
+            ];
+        } else {
+            $array = [
+                'is_to_examine'      => 0,
+                'to_examine_content' => '未通过',
+            ];
+        }
+
+        $result = $this->model->toExamine($id, $array);
+
+        return response()->json($result);
     }
 }
