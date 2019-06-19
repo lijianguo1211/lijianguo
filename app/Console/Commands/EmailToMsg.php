@@ -56,7 +56,7 @@ class EmailToMsg extends Command
 
     public function email()
     {
-        $user = User::find(15);
+        $user = User::find(1);
         $this->e->to('1539853340@qq.com')->send(new MailConfirm($user));
     }
 }

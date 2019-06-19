@@ -22,7 +22,6 @@ class MailConfirm extends Mailable
      */
     public function __construct(User $user)
     {
-        dd($user);
         $this->user = $user;
     }
 
@@ -34,6 +33,7 @@ class MailConfirm extends Mailable
     public function build()
     {
         return $this->subject('请确认您的邮箱')
-            ->markdown('mails.confirm');
+            //->markdown('mails.confirm');
+            ->markdown('mail.invoice.paid');
     }
 }
