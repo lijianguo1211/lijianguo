@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\DataModels\HeaderModel;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 
@@ -78,7 +79,7 @@ class LoginController extends Controller
         }
 
         if ($this->attemptLogin($request)) {
-            return dd($this->sendLoginResponse($request));
+            return $this->sendLoginResponse($request);
         }
 
         // If the login attempt was unsuccessful we will increment the number of attempts
@@ -101,5 +102,11 @@ class LoginController extends Controller
             $this->username() => 'required|string',
             'password' => 'required|string',
         ]);
+    }
+
+    public function showLoginForm()
+    {
+        $header = (new HeaderModel())->getIndexHeader();
+        return view('login_home')->with(['header'=>$header]);
     }
 }

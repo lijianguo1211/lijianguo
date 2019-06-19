@@ -33,7 +33,7 @@ class EmailToUserEventListener implements ShouldQueue
         try{
             $this->sendValidateMail($event->user);
         } catch(\Exception $e) {
-            \Log::error('邮件发送失败:'.$e->getMessage());
+            \Log::error('邮件发送失败:'.$e->getMessage() . "\t" . $e->getCode() . "\t" . $e->getLine());
         }
 
     }

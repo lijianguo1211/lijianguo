@@ -29,7 +29,25 @@ Route::get('ask/details/{id}', 'AskController@details')->where('id', '[0-9]+');
 
 Route::get('confirm', 'Auth\ConfirmController@confirm')->name('confirm');
 Route::get('send-confirm-mail', 'Auth\ConfirmController@sendMail')->name('send-confirm-mail');
-Auth::routes();
+
+Route::get('github', 'Auth\GithubController@redirectToProvider')->name('github');
+Route::get('github/callback', 'Auth\GithubController@handleProviderCallback');
+// Authentication Routes...
+Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
+Route::post('login', 'Auth\LoginController@login');
+Route::post('logout', 'Auth\LoginController@logout')->name('logout');
+
+// Registration Routes...
+Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
+Route::post('register', 'Auth\RegisterController@register');
+
+// Password Reset Routes...
+Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
+Route::post('password/reset', 'Auth\ResetPasswordController@reset');
+
+//Auth::routes();
 
 
 Route::get('blog/detail/{id}', 'IndexController@details')->where('id', '[0-9]+');

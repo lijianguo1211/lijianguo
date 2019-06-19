@@ -22,6 +22,7 @@ class MailConfirm extends Mailable
      */
     public function __construct(User $user)
     {
+        dd($user);
         $this->user = $user;
     }
 
