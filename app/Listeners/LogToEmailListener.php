@@ -33,12 +33,13 @@ class LogToEmailListener
         try {
             $this->sendMail($event->params);
         } catch(\Exception $e) {
+            dd($e);
             \Log::error('邮件发送失败:'.$e->getMessage());
         }
     }
 
-    public function sendMail(array $param)
+    public function sendMail($param)
     {
-        return $this->email->to(env('MAIL_TO_ADDRESS'))->send(new LogEmail($param));
+        return dd($this->email->to('1539853340@qq.com')->send(new LogEmail($param)));
     }
 }

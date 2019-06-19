@@ -18,8 +18,9 @@ class LogEmail extends Mailable
 
     private $params;
 
-    public function __construct(array $params)
+    public function __construct($params)
     {
+        //dd($params['message']);
         $this->params = $params;
     }
 
@@ -29,6 +30,7 @@ class LogEmail extends Mailable
             ->markdown('mails.log')->with([
                 'level' => $this->params['level'],
                 'message' => $this->params['message'],
+                //'context' => $this->params['context'],
             ]);
     }
 }

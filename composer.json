@@ -12,12 +12,14 @@
         "encore/laravel-admin": "^1.6",
         "fideloper/proxy": "^4.0",
         "joyqi/hyper-down": "dev-master",
+        "laravel-admin-ext/simplemde": "^1.0",
         "laravel/framework": "5.8.*",
         "laravel/socialite": "^4.1",
         "laravel/tinker": "^1.0",
         "maatwebsite/excel": "^3.1",
         "maatwebsite/laravel-excel-light": "dev-master",
-        "overtrue/socialite": "^2.0"
+        "overtrue/socialite": "^2.0",
+        "sharemant/laravel-admin-ext-editormd": "^1.0"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",
