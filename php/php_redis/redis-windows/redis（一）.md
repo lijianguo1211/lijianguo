@@ -30,4 +30,26 @@ windows+R键打开cmd。然后输入redis-cli。就可以看到redis的启动登
 
 ![ext-redis](redis-4.png)
 
+* 解压下载完成后的php扩展文件redis.然后找到我们的PHP的安装目录，这里有两个目录
+
+1. PHP的扩展所在目录
+
+2. PHP.ini文件所在目录
+
+我们把redis的扩展文件放到ext文件，如下：
+![redis-ext](redis-5.png)
+
+然后再php.ini文件开启扩展`extension=php_redis.dll`
+
+![redis-php.ini](redis-6.png)
+
+* 最后再重启服务器，apache或者nginx,在浏览器上输出`phpinfo`;搜索一下redis.如下显示就代表成功
+
+![redis-phpinfo](redis-7.png)
+
+**************************************
+
+以上就是Windows下安装redis,以及给PHP安装redis扩展
+
+[github地址，欢迎大家一起学习](https://github.com/lijianguo1211/lijianguo/blob/phpmd/php/php_redis/redis-windows/redis%EF%BC%88%E4%B8%80%EF%BC%89.md)
 
