@@ -136,9 +136,9 @@ class BlogController extends Controller
     {
         $form = new Form($this->blog);
 
-        //$content = BlogContentModel::where('blog_id', $id)->first();
+        $content = BlogContentModel::where('blog_id', $id)->first();
 
-        //$content = $content->content_md ? $content->content_md : '';
+        $content = $content->content_md ? $content->content_md : '';
 
         $form->model()->leftjoin('blog_content as bc', 'blogs.id', '=', 'bc.blog_id');
 
@@ -151,7 +151,7 @@ class BlogController extends Controller
         $form->switch('delete_status', '是否删除');
 
         //$form->editor('content', '内容')->default('');
-        $form->editormd('content', '内容')
+        $form->editormd('content', '内容')->default($content);
         return $form;
     }
 
