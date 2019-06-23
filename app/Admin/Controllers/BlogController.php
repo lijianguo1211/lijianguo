@@ -135,10 +135,12 @@ class BlogController extends Controller
     protected function form(int $id)
     {
         $form = new Form($this->blog);
-
-        $content = BlogContentModel::where('blog_id', $id)->first();
-
-        $content = $content->content_md ? $content->content_md : '';
+        try {
+            $content = BlogContentModel::where('blog_id', $id)->first();
+            $content = $content->content_md ? $content->content_md : '';
+        } catch (\Exception $e) {
+            $content = '';
+        }
 
         $form->model()->leftjoin('blog_content as bc', 'blogs.id', '=', 'bc.blog_id');
 
@@ -163,7 +165,7 @@ class BlogController extends Controller
      * Time: 21:57
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|void
      */
-    public function store(Reader $reader, Writer $writer)
+    public function store()
     {
         $rule = [
             'title' => 'required|max:20',
