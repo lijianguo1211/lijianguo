@@ -14,6 +14,7 @@ use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
 use App\Admin\Traits\TraitMessage;
+use HyperDown\Parser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\ExcelLight\Excel;
@@ -195,9 +196,11 @@ class BlogController extends Controller
             'user_id'       => 1,
             'delete_status' => $this->input['delete_status'] === 'on' ? 1 : 0,
         ];
+        $parser = new Parser();
+        $content_md = $parser->makeHtml($this->input['content']);
         $blog_content = [
             'content'    => $this->input['content'],
-            'content_md' => $this->input['content'],
+            'content_md' => $content_md,
             'type'       => 0
         ];
         $tag = [

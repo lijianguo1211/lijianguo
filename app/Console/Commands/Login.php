@@ -8,7 +8,9 @@
 
 namespace App\Console\Commands;
 
+use App\Models\DataModels\BlogContentModel;
 use App\Models\DataModels\UserModel;
+use HyperDown\Parser;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 
@@ -41,8 +43,22 @@ class Login extends Command
     public function handle()
     {
         //$this->getTable();
+        $this->updateTable();
+    }
 
-        $this->progressBar();
+    public function updateTable()
+    {
+        try {
+            $value = BlogContentModel::where('id', 33)->value('content_md');
+            $parser = new Parser();
+            $content_md = $parser->makeHtml($value);
+            BlogContentModel::where('id', 33)->update(['content_md' => $content_md]);
+        } catch (\Exception $exception) {
+            $this->error($exception->getMessage());
+        }
+
+        return 'success!!!';
+
     }
 
 
