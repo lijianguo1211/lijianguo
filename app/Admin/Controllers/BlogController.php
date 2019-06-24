@@ -14,6 +14,7 @@ use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
 use App\Admin\Traits\TraitMessage;
+use HyperDown\Parser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\ExcelLight\Excel;
@@ -135,10 +136,12 @@ class BlogController extends Controller
     protected function form(int $id)
     {
         $form = new Form($this->blog);
-
-        //$content = BlogContentModel::where('blog_id', $id)->first();
-
-        //$content = $content->content_md ? $content->content_md : '';
+        try {
+            $content = BlogContentModel::where('blog_id', $id)->first();
+            $content = $content->content_md ? $content->content_md : '';
+        } catch (\Exception $e) {
+            $content = '';
+        }
 
         $form->model()->leftjoin('blog_content as bc', 'blogs.id', '=', 'bc.blog_id');
 
@@ -150,8 +153,8 @@ class BlogController extends Controller
 
         $form->switch('delete_status', '是否删除');
 
-        $form->editor('content', '内容')->default('');
-
+        //$form->editor('content', '内容')->default('');
+        $form->editormd('content', '内容')->default($content);
         return $form;
     }
 
@@ -163,7 +166,7 @@ class BlogController extends Controller
      * Time: 21:57
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|void
      */
-    public function store(Reader $reader, Writer $writer)
+    public function store()
     {
         $rule = [
             'title' => 'required|max:20',
@@ -193,9 +196,11 @@ class BlogController extends Controller
             'user_id'       => 1,
             'delete_status' => $this->input['delete_status'] === 'on' ? 1 : 0,
         ];
+        $parser = new Parser();
+        $content_md = $parser->makeHtml($this->input['content']);
         $blog_content = [
             'content'    => $this->input['content'],
-            'content_md' => $this->input['content'],
+            'content_md' => $content_md,
             'type'       => 0
         ];
         $tag = [
