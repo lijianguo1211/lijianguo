@@ -13,6 +13,11 @@
 
 Route::get('/', 'IndexController@index');
 Route::get('liyi', 'IndexController@liyi');
+Route::group(['namespace' => 'Tools', 'prefix' => 'tools'], function(){
+    Route::get('index', 'FanyiController@index');
+    Route::post('baidu/fanyi', 'FanyiController@postFanyi')->name('baidu.fanyi');
+});
+
 
 
 Route::get('testMd', 'IndexController@test');

@@ -31,7 +31,7 @@ class LogToEmailListener
     public function handle(LogToEmailEvent $event)
     {
         try {
-            $this->sendMail($event->params);
+            //$this->sendMail($event->params);
         } catch(\Exception $e) {
             dd($e);
             \Log::error('邮件发送失败:'.$e->getMessage());
