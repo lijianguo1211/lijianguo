@@ -47,8 +47,9 @@ class FanyiController extends BaseController
 
     public function postFanyi()
     {
-        dump($this->params);
         $result =(new BaiduTranslate)->translate($this->params['content'], 'en', 'zh');
-        dd($result);
+
+        //encodingOptions(JSON_UNESCAPED_UNICODE);
+        return response()->json($result)->setEncodingOptions(JSON_UNESCAPED_UNICODE);
     }
 }
