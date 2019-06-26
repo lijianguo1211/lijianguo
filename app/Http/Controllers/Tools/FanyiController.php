@@ -4,6 +4,7 @@
 namespace App\Http\Controllers\Tools;
 
 
+use App\Exceptions\BaiduTranslate;
 use App\Http\Controllers\BaseController;
 use App\Models\DataModels\AskContentModel;
 use App\Models\DataModels\BlogModel;
@@ -46,6 +47,8 @@ class FanyiController extends BaseController
 
     public function postFanyi()
     {
-        dd($this->params);
+        dump($this->params);
+        $result =(new BaiduTranslate)->translate($this->params['content'], 'en', 'zh');
+        dd($result);
     }
 }
