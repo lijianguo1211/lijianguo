@@ -8,6 +8,8 @@
 
 namespace App\Console\Commands;
 
+use App\Jobs\ProcessPodcast;
+use App\Mail\TestEmail;
 use Illuminate\Console\Command;
 use App\Mail\MailConfirm;
 use Illuminate\Support\Facades\Mail;
@@ -46,7 +48,7 @@ class EmailToMsg extends Command
     public function handle()
     {
         try {
-            $this->email();
+            $this->tt();
             $this->error('123456');
         } catch (\Exception $e) {
             $this->error($e->getMessage());
@@ -54,9 +56,14 @@ class EmailToMsg extends Command
 
     }
 
+    public function tt()
+    {
+        Mail::to('jay.li@feisu.com')->send(new TestEmail('jay.li@feisu.com'));
+    }
+
     public function email()
     {
         $user = User::find(1);
-        $this->e->to('1539853340@qq.com')->send(new MailConfirm($user));
+        $this->e->to('potato.liu@feisu.com')->send(new MailConfirm($user));
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Tools;
 
 
 use App\Http\Controllers\BaseController;
+use App\Jobs\ProcessPodcast;
 use App\Models\DataModels\HeaderModel;
 use Illuminate\Http\Request;
 
@@ -30,5 +31,13 @@ class UrlController extends BaseController
         return view('tools.url')->with([
             'header'=>$header,
         ]);
+    }
+
+    public function sendToEmailJob()
+    {
+        for ($i = 0; $i < 10; $i++) {
+            ProcessPodcast::dispatch('jay.li@feisu.com');
+        }
+        dump('success');
     }
 }
