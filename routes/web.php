@@ -18,6 +18,9 @@ Route::group(['namespace' => 'Tools', 'prefix' => 'tools'], function(){
     Route::get('index', 'FanyiController@index');
     Route::post('baidu/fanyi', 'FanyiController@postFanyi')->name('baidu.fanyi');
     Route::get('encode', 'UrlController@index');
+    Route::get('img', 'UrlController@image');
+    Route::post('apiUploadFileImage', 'UrlController@apiUploadFileImage')
+        ->name('tools.apiUploadFileImage');
     Route::get('sendToEmailJob', 'UrlController@sendToEmailJob');
     Route::get('encryption', 'PasswordController@index');
 });

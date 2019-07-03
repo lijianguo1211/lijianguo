@@ -38,6 +38,19 @@ class UrlController extends BaseController
         for ($i = 0; $i < 10; $i++) {
             ProcessPodcast::dispatch('jay.li@feisu.com');
         }
-        dump('success');
+    }
+
+    public function image()
+    {
+        $header = (new HeaderModel())->getIndexHeader();
+        return view('tools.img')->with([
+            'header'=>$header,
+        ]);
+    }
+
+    public function apiUploadFileImage(Request $request)
+    {
+        dump($request->file());
+        dd($request->get('image'));
     }
 }

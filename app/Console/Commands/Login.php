@@ -42,15 +42,25 @@ class Login extends Command
      */
     public function handle()
     {
-        $this->uploadfile();
+        //$this->uploadfile();
+        $client = new Client();
+        $res = $client->request('get', 'http://www.baidu.com');
+        $body = $res->getBody();
+        $this->info($body);
     }
 
     public function uploadfile()
     {
         $fileName = public_path('uploads/imageController') . '/liyi_20190614023835_5d03b16b99677timg.jpg';
-        $client = new Client();
+        $client = new Client(['base_uri' => 'http://lglg.xyz/tools/']);
         $data = fopen($fileName, 'r');
-        $res = $client->request('post', 'http://localhost:8005/liyiPost', ['body' => $data]);
+        $dataBody = [
+            'multipart' => [
+                'contents' => $data
+                ],
+            'timeout' => 3.14//超时限制
+        ];
+        $res = $client->request('post', 'apiUploadFileImage', ['body' => $data]);
 
         $body = $res->getBody();
         $this->info(json_encode($body->getContents()));
