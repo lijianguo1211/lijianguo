@@ -12,7 +12,7 @@ use App\Models\DataModels\BlogContentModel;
 use App\Models\DataModels\UserModel;
 use HyperDown\Parser;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\DB;
+use GuzzleHttp\Client;
 
 class Login extends Command
 {
@@ -42,8 +42,18 @@ class Login extends Command
      */
     public function handle()
     {
-        //$this->getTable();
-        $this->updateTable();
+        $this->uploadfile();
+    }
+
+    public function uploadfile()
+    {
+        $fileName = public_path('uploads/imageController') . '/liyi_20190614023835_5d03b16b99677timg.jpg';
+        $client = new Client();
+        $data = fopen($fileName, 'r');
+        $res = $client->request('post', 'http://localhost:8005/liyiPost', ['body' => $data]);
+
+        $body = $res->getBody();
+        $this->info(json_encode($body->getContents()));
     }
 
     public function updateTable()

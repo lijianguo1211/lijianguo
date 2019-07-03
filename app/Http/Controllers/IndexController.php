@@ -15,6 +15,7 @@ use App\Models\DataModels\HeaderModel;
 use App\Models\DataModels\ImageModel;
 use App\Models\DataModels\RightTopsModel;
 use App\User;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
@@ -189,9 +190,24 @@ class IndexController extends BaseController
 
     public function liyi()
     {
-        $content = file_get_contents(storage_path('1.md'));
+        \log::info(json_encode(request()->all()));
+        /*$content = file_get_contents(storage_path('1.md'));
         $content = EndaEditor::MarkDecode($content);
-        echo $content;
+        echo $content;*/
+    }
+
+    public function liyiPost()
+    {
+        $fileName = public_path('uploads/imageController') . '/liyi_20190614023835_5d03b16b99677timg.jpg';
+        dump($fileName);
+        $client = new Client();
+        dump($client);
+        $data = fopen($fileName, 'r');
+        dump('======='.$data.'=========');
+        $res = $client->request('post', 'http://localhost:8005/liyi', ['body' => $data]);
+        dump($res);
+        $body = $res->getBody();
+        dd(json_encode($body->getContents()));
     }
 
 }
