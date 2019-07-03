@@ -63,7 +63,8 @@ return [
             'connection' => 'default',
             'queue' => env('REDIS_QUEUE', 'default'),
             'retry_after' => 90,
-            'block_for' => 5,//阻塞时间
+            //'block_for' => 5,//阻塞时间
+            'block_for' => null,//阻塞时间
         ],
 
     ],

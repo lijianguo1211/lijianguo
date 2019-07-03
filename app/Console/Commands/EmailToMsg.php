@@ -49,7 +49,6 @@ class EmailToMsg extends Command
     {
         try {
             $this->tt();
-            $this->error('123456');
         } catch (\Exception $e) {
             $this->error($e->getMessage());
         }
@@ -58,7 +57,11 @@ class EmailToMsg extends Command
 
     public function tt()
     {
-        Mail::to('jay.li@feisu.com')->send(new TestEmail('jay.li@feisu.com'));
+        for ($i = 0; $i < 5; $i++) {
+            //ProcessPodcast::dispatch('jay.li@feisu.com');
+            ProcessPodcast::dispatchNow('jay.li@feisu.com');//同步发送
+            $this->info('success-- ' . $i);
+        }
     }
 
     public function email()

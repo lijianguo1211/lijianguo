@@ -33,6 +33,5 @@ class ProcessPodcast implements ShouldQueue
     public function handle()
     {
         Mail::to($this->job)->send(new TestEmail($this->job));
-        //Mail::to('jay.li@feisu.com')->send(new TestEmail('jay.li@feisu.com'));
     }
 }
