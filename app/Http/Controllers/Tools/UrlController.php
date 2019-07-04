@@ -52,5 +52,6 @@ class UrlController extends BaseController
     {
         \Log::info(json_encode($request->all()));
         \Log::info(json_encode($request->file()));
+        return response()->json(['status' => 'error', 'info' =>0]);
     }
 }
