@@ -8,13 +8,27 @@
     <main role="main" class="container">
         <div class="row">
 
-            <div class="col-sm-8 col-md-8 blog-main">
+            <div class="col-sm-10 col-md-10 blog-main">
                 <h1>上传文件</h1>
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">文件上传</h5>
                             <label for="img"></label>
                             <input type="file" name="image" id="img" class="file" accept="image/*" multiple="multipart/form-data">
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">文件上传</h5>
+                        <form action="{{ route('tools.apiUploadFileImage') }}" multiple="multipart/form-data" method="post">
+                            <div class="form-group">
+                                <label for="img"></label>
+                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                <input type="file" name="images" id="img" value="">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
                     </div>
                 </div>
             </div>

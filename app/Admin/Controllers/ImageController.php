@@ -183,7 +183,7 @@ class ImageController extends Controller
 
         $image = request()->file('image_path');
 
-        ;
+
         $res = $image->move(config('filesystems.disks.admin.root'), 'liyi_' . date('Ymdhis') . '_'. uniqid() . $image->getClientOriginalName());
         $image_path = config('filesystems.disks.admin.url') . '/' . $res->getFilename();
         // config('filesystems.disks.admin.url') . '/' .

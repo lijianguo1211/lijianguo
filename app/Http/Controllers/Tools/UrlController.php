@@ -50,7 +50,7 @@ class UrlController extends BaseController
 
     public function apiUploadFileImage(Request $request)
     {
-        dump($request->file());
-        dd($request->get('image'));
+        \Log::info(json_encode($request->all()));
+        \Log::info(json_encode($request->file()));
     }
 }
