@@ -8,6 +8,7 @@
 
 namespace App\Console\Commands;
 
+use App\Exceptions\HttpCurl;
 use App\Models\DataModels\BlogContentModel;
 use App\Models\DataModels\UserModel;
 use HyperDown\Parser;
@@ -42,11 +43,11 @@ class Login extends Command
      */
     public function handle()
     {
-        //$this->uploadfile();
-        $client = new Client();
-        $res = $client->request('get', 'http://www.baidu.com');
-        $body = $res->getBody();
-        $this->info($body);
+        $res = (new HttpCurl())->setUri('http://www.lglg.xyz')
+            ->setMethod('get')
+            ->setQuery()
+            ->getResponse();
+        $this->info($res->getBody());
     }
 
     public function uploadfile()
