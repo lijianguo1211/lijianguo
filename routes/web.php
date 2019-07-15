@@ -71,3 +71,20 @@ Route::get('img/delete', 'ImgController@delete');
 
 Route::post('ajaxComment/{id}', 'IndexController@ajaxComment')->where('id', '[0-9]+');
 Route::post('ajaxGetComment/{id}', 'IndexController@ajaxGetComment')->where('id', '[0-9]+');
+
+
+
+//dngo-api
+$api = app('Dingo\Api\Routing\Router');
+$api->version('v1', function ($api) {
+    $api->group(['middleware' => 'test'], function($api) {
+        //创建一个端点
+        $api->get('users/{id}', 'App\Api\V1\Controllers\UserController@show');
+        /*$api->get('users/{id}', function() {
+            echo App\Api\V1\Controllers\UserController::class;
+        });*/
+        //命名路由
+        $api->get('users', ['as' => 'users.index', 'uses' => 'App\Api\V1\Controllers\UserController@index']);
+    });
+});
+

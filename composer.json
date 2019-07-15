@@ -68,13 +68,17 @@
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
-        ]
-    },
-    "scripts":{
+        ],
         "post-update-cmd": [
             "php artisan clear-compiled",
             "php artisan ide-helper:generate",
             "php artisan optimize"
         ]
+    },
+    "repositories": {
+        "packagist": {
+            "type": "composer",
+            "url": "https://mirrors.aliyun.com/composer/"
+        }
     }
 }
