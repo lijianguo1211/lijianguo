@@ -45,11 +45,24 @@ class FanyiController extends BaseController
         ]);
     }
 
-    public function postFanyi(Request $request)
+    /**
+     * Notes: 翻译
+     * Name: postFanyi
+     * User: LiYi
+     * Date: 2019/7/9
+     * Time: 21:55
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function postFanyi()
     {
-        $result =(new BaiduTranslate)->translate($this->params['content'], $this->params['to'], $this->params['form']);
+        $result =(new BaiduTranslate)
+            ->translate(
+                $this->params['content'],
+                $this->params['to'],
+                $this->params['form']
+            );
 
-        //encodingOptions(JSON_UNESCAPED_UNICODE);
-        return response()->json($result)->setEncodingOptions(JSON_UNESCAPED_UNICODE);
+        return response()->json($result)
+            ->setEncodingOptions(JSON_UNESCAPED_UNICODE);
     }
 }
