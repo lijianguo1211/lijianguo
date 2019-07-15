@@ -77,7 +77,7 @@ Route::post('ajaxGetComment/{id}', 'IndexController@ajaxGetComment')->where('id'
 //dngo-api
 $api = app('Dingo\Api\Routing\Router');
 $api->version('v1', function ($api) {
-    $api->group(['middleware' => 'test'], function($api) {
+    $api->group(['middleware' => 'api.throttle', 'limit' => 100, 'expires' => 5], function($api) {
         //创建一个端点
         $api->get('users/{id}', 'App\Api\V1\Controllers\UserController@show');
         /*$api->get('users/{id}', function() {
@@ -85,6 +85,7 @@ $api->version('v1', function ($api) {
         });*/
         //命名路由
         $api->get('users', ['as' => 'users.index', 'uses' => 'App\Api\V1\Controllers\UserController@index']);
+        $api->post('users', ['as' => 'users.store', 'uses' => 'App\Api\V1\Controllers\UserController@store']);
     });
 });
 
