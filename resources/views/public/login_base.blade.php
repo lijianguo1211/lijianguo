@@ -14,39 +14,27 @@
 
     <title>花儿尊上</title>
     <!-- Bootstrap core CSS -->
-    <link href="{{ url('/bootstrap-4.0.0/dist/css/bootstrap.css')}}" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
-    <link href="{{ url('/css/blog.css') }}" rel="stylesheet">
+    <link href="{{mix("css/app.css")}}" rel="stylesheet">
 </head>
 
 <body>
 
-{{--header--}}
-@include('public/login_header')
-
-@yield('content')
-
-<div style="padding-bottom: 100px;"></div>
-
-@include('public/footer')
-{{--foot--}}
+<div id="app">
+    {{--header--}}
+    <div class="container">
+        @include('public/header')
+    </div>
 
 
-{{--<script src="{{ url('js/jquery.3.js') }}" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>--}}
-<script src="{{ url('js/jquery-3.1.1.js') }}"></script>
-{{--<script>window.jQuery || document.write('<script src="{{ url('/bootstrap-4.0.0/assets/js/vendor/jquery-slim.min.js') }}"><\/script>')</script>--}}
-<script src="{{ url('/bootstrap-4.0.0/assets/js/vendor/popper.min.js') }}"></script>
-<script src="{{URL::asset('/bootstrap-4.0.0/dist/js/bootstrap.js')}}"></script>
-<script src="{{ url('/bootstrap-4.0.0/assets/js/vendor/holder.min.js') }}"></script>
-<script>
-    Holder.addTheme('thumb', {
-        bg: '#55595c',
-        fg: '#eceeef',
-        text: 'Thumbnail'
-    });
-</script>
+    @yield('content')
+
+    <div style="padding-bottom: 100px;"></div>
+
+    <footer-component></footer-component>
+    {{--foot--}}
+</div>
+
+<script src="{{mix("js/app.js")}}"></script>
 @yield('js')
 
 

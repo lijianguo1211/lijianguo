@@ -11,7 +11,7 @@
 |
 */
 
-Route::get('/', 'IndexController@index');
+Route::get('/', 'IndexController@index')->name('/');
 Route::post('liyi', 'IndexController@liyi');
 Route::get('liyiPost', 'IndexController@liyiPost');
 Route::group(['namespace' => 'Tools', 'prefix' => 'tools'], function(){
@@ -32,7 +32,7 @@ Route::get('testHash', 'IndexController@testHash');
 Route::get('test/{id}','TestController@test')->name('test.index');
 Route::get('getBaiduCode', 'IndexController@getBaiduCode');
 
-Route::get('questions', 'AskController@index');
+Route::get('questions', 'AskController@index')->name('ask.index');
 Route::get('ask/create/index', 'AskController@createIndex');
 Route::post('ask/add', 'AskController@insert');
 Route::get('ask/details/{id}', 'AskController@details')->where('id', '[0-9]+');
@@ -79,10 +79,10 @@ $api = app('Dingo\Api\Routing\Router');
 $api->version('v1', function ($api) {
     $api->group(['middleware' => 'api.throttle', 'limit' => 100, 'expires' => 5], function($api) {
         //创建一个端点
-        $api->get('users/{id}', 'App\Api\V1\Controllers\UserController@show');
-        /*$api->get('users/{id}', function() {
+        //$api->get('users/{id}', 'App\Api\V1\Controllers\UserController@show');
+        $api->get('users/{id}', function() {
             echo App\Api\V1\Controllers\UserController::class;
-        });*/
+        });
         //命名路由
         $api->get('users', ['as' => 'users.index', 'uses' => 'App\Api\V1\Controllers\UserController@index']);
         $api->post('users', ['as' => 'users.store', 'uses' => 'App\Api\V1\Controllers\UserController@store']);
