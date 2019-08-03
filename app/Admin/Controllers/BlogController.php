@@ -154,7 +154,8 @@ class BlogController extends Controller
         $form->switch('delete_status', '是否删除');
 
         //$form->editor('content', '内容')->default('');
-        $form->editormd('content', '内容')->default($content);
+        //$form->editormd('content', '内容')->default($content);
+        $form->UEditor('content', '内容')->default($content);
         return $form;
     }
 

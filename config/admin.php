@@ -353,7 +353,7 @@ return [
     'extensions' => [
         'editormd' => [
             // Set to false if you want to disable this extension
-            'enable' => true,
+            'enable' => false,
             // Set to true if you want to take advantage the screen length for your editormd instance.
             'wideMode' => false,
             // Set to true when the instance included in larave-admin tab component.
@@ -366,6 +366,17 @@ return [
                     'height' => 600,
                     'emoji' => true
                 ]
+        ],
+        'ueditor' => [
+
+            // 如果要关掉这个扩展，设置为false
+            'enable' => true,
+
+            // 编辑器的前端配置 参考：http://fex.baidu.com/ueditor/#start-config
+            'config' => [
+                'initialFrameHeight' => 400, // 例如初始化高度
+            ],
+            // 'field_type' => '自定义名字'
         ]
     ]
 ];
