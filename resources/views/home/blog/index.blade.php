@@ -12,7 +12,7 @@
                     <h2 class="blog-post-title">{{ $details['title'] }}</h2>
                     <p class="blog-post-meta">{{ $details['create_at'] }} <a href="#">{{ $details['username'] }}</a></p>
                     @php
-                       echo $details['content_md']
+                        echo $details['content_md']
                     @endphp
 
                     @if(!empty($comments))
@@ -33,9 +33,9 @@
                                     <a href="#demo{{ $item['id'] }}" class="badge badge-pill badge-success" id="getMany" data-toggle="collapse">查看更多</a>
                                     <div id="demo{{ $item['id'] }}" class="collapse">
                                         <p class="card-text">
-                                            <div id="lier">
+                                        <div id="lier">
 
-                                            </div>
+                                        </div>
                                         </p>
                                     </div>
 
@@ -84,8 +84,8 @@
             $("#onSubmit").click(function(){
                 var content = $("#content").val();
                 @guest()
-                    $("#liyi_alert").html("<div class=\"alert alert-success\"><a href=\"#\" rel=\"external nofollow\" rel=\"external nofollow\" rel=\"external nofollow\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">X</a><strong>评论失败！</strong>请你先登录哦！</div>");
-                @else
+                $("#liyi_alert").html("<div class=\"alert alert-success\"><a href=\"#\" rel=\"external nofollow\" rel=\"external nofollow\" rel=\"external nofollow\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">X</a><strong>评论失败！</strong>请你先登录哦！</div>");
+                    @else
                 var l_users_id = "{{ Auth::user()->id }}";
                 var tag_token = $(".tag_token").val();
                 $.ajax({
@@ -112,21 +112,21 @@
                 var luser = $("#luser_id").val();
                 var cuser = $("#cuser_id").val();
                 $.ajax({
-                   url:"{{ url('ajaxGetComment/'.$details['id']) }}",
-                   type:'post',
-                   data:{'luser_id':luser,'cuser_id':cuser,'_token':tag_token},
-                   dataType:'json',
-                   success:function(res){
+                    url:"{{ url('ajaxGetComment/'.$details['id']) }}",
+                    type:'post',
+                    data:{'luser_id':luser,'cuser_id':cuser,'_token':tag_token},
+                    dataType:'json',
+                    success:function(res){
                         console.log(res.data)
                         $.each(res.data,function(index,value){
                             console.log(value.username);
                             console.log(value.content);
                             $("#lier").html(value.content+"<span class=\"badge badge-pill badge-danger\">"+value.username+"</span>----<span>"+value.created_at+"</span>");
                         })
-                   },
-                   error:function(err) {
-                       console.log(err)
-                   }
+                    },
+                    error:function(err) {
+                        console.log(err)
+                    }
                 });
             });
         });

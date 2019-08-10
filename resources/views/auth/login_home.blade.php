@@ -1,4 +1,4 @@
-@extends('public/login_base')
+@extends('public.login_base')
 
 @section('content')
 

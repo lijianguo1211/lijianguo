@@ -6,10 +6,11 @@
  * Time: 21:03
  */
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Home;
 
 use App\Models\DataModels\HeaderModel;
 use Illuminate\Http\Request;
+use App\Http\Controllers\BaseController;
 
 class ImgController extends BaseController
 {

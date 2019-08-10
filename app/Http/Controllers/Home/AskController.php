@@ -6,7 +6,7 @@
  * Time: 16:00
  */
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Home;
 
 use App\Models\DataModels\AskContentModel;
 use App\Models\DataModels\AskModel;
@@ -14,6 +14,7 @@ use App\Models\DataModels\HeaderModel;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Controllers\BaseController;
 
 
 class AskController extends BaseController

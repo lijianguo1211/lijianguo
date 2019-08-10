@@ -1,7 +1,7 @@
 <header class="blog-header py-3">
         <div class="row flex-nowrap justify-content-between align-items-center">
             <div class="col-4 pt-1">
-                <a class="text-muted" href="{{ url('/') }}">花儿尊上</a>
+                <a class="text-muted" href="{{ route('home') }}">花儿尊上</a>
             </div>
             <div class="col-4 text-center">
                 {{--<a class="blog-header-logo text-dark" href="#">Large</a>--}}
@@ -22,7 +22,7 @@
                             </button>
                             <div class="dropdown-menu">
                                 <a class="dropdown-item" href="#">个人信息</a>
-                                <a class="dropdown-item" href="{{ url('img/index') }}">上传图集</a>
+                                <a class="dropdown-item" href="{{ route('home.img.index') }}">上传图集</a>
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                    onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
