@@ -38,7 +38,15 @@ class AskContentModel extends Model
 
     public function getFirstData():array
     {
-        $result = $this->select('title','content','url_path','url_name')->orderBy('created_at','desc')->limit(1)->get()->toArray();
+        $result = $this->select(
+            'title',
+            'content',
+            'url_path',
+            'url_name'
+        )->orderBy('created_at','desc')
+            ->limit(1)
+            ->get()
+            ->toArray();
 
         return $result;
     }

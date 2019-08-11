@@ -1875,7 +1875,7 @@ var Modal = function ($$$1) {
    */
   var NAME = 'modal';
   var VERSION = '4.0.0';
-  var DATA_KEY = 'bs.modal';
+  var DATA_KEY = 'modal';
   var EVENT_KEY = "." + DATA_KEY;
   var DATA_API_KEY = '.data-api';
   var JQUERY_NO_CONFLICT = $$$1.fn[NAME];
@@ -2608,7 +2608,7 @@ var Tooltip = function ($$$1) {
       clearTimeout(this._timeout);
       $$$1.removeData(this.element, this.constructor.DATA_KEY);
       $$$1(this.element).off(this.constructor.EVENT_KEY);
-      $$$1(this.element).closest('.modal').off('hide.bs.modal');
+      $$$1(this.element).closest('.modal').off('modal');
 
       if (this.tip) {
         $$$1(this.tip).remove();
@@ -2854,7 +2854,7 @@ var Tooltip = function ($$$1) {
           });
         }
 
-        $$$1(_this3.element).closest('.modal').on('hide.bs.modal', function () {
+        $$$1(_this3.element).closest('.modal').on('modal', function () {
           return _this3.hide();
         });
       });

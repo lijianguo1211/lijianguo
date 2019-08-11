@@ -32,7 +32,7 @@ class BlogController extends BaseController
     /**
      * 详情页面
      */
-    public function details($id)
+    public function show($id)
     {
         if (!is_int($id)) {
             $id = (int)$id;
@@ -46,7 +46,6 @@ class BlogController extends BaseController
             'header'=>$this->header,
             'right'=>$this->right,
             'value'=>$this->getValue,
-            'result' => $this->headerResult,
             'comments' => $comments,
             'ask' => $this->askIndex
         ]);

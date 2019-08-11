@@ -7,7 +7,3 @@
         </div>
     @endforeach()
 </div>
-
-<div class="row mb-2">
-    @yield('ask_content')
-</div>

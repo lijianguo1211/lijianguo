@@ -2460,7 +2460,7 @@
                     modal: $modal
                 };
             };
-            $modal.on(event + '.bs.modal', function (e) {
+            $modal.on(event + '.modal', function (e) {
                 var $btnFull = $modal.find('.btn-fullscreen'), $btnBord = $modal.find('.btn-borderless');
                 self._raise('filezoom' + event, getParams(e));
                 if (event === 'shown') {

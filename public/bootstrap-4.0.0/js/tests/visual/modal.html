@@ -211,12 +211,12 @@
         })
 
         $('#btnPreventModal').on('click', function () {
-          $('#firefoxModal').one('shown.bs.modal', function () {
+          $('#firefoxModal').one('modal', function () {
             $(this).modal('hide')
           })
-          .one('hide.bs.modal', function (event) {
+          .one('modal', function (event) {
             event.preventDefault()
-            if ($(this).data('bs.modal')._isTransitioning) {
+            if ($(this).data('modal')._isTransitioning) {
               console.error('Modal plugin should not set _isTransitioning when hide event is prevented')
             } else {
               console.log('Test passed')

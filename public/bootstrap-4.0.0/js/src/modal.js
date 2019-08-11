@@ -17,7 +17,7 @@ const Modal = (($) => {
 
   const NAME                         = 'modal'
   const VERSION                      = '4.0.0'
-  const DATA_KEY                     = 'bs.modal'
+  const DATA_KEY                     = 'modal'
   const EVENT_KEY                    = `.${DATA_KEY}`
   const DATA_API_KEY                 = '.data-api'
   const JQUERY_NO_CONFLICT           = $.fn[NAME]

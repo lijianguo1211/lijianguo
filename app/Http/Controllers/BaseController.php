@@ -23,7 +23,6 @@ class BaseController extends Controller
     protected $reghtTops;
     protected $header;
     protected $right;
-    protected $headerResult;
 
     public function __construct(BlogModel $blog,Request $request)
     {
@@ -34,6 +33,5 @@ class BaseController extends Controller
         $this->reghtTops = (new RightTopsModel())->getRieghtTops();
         $this->header = (new HeaderModel())->getIndexHeader();
         $this->right = (new HeaderModel())->getIndexHeader(1);
-        $this->headerResult = (new ImageModel())->getHeaderIndex();
     }
 }

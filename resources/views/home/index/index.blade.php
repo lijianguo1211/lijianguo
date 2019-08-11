@@ -11,7 +11,11 @@
 
                 @foreach($blogs as $blog)
                     <div class="blog-post">
-                        <h2 class="blog-post-title"><a href="{{ route('home.blog.detail', ['id' => $blog['id']]) }}">{{ $blog['title'] }}</a></h2>
+                        <h2 class="blog-post-title">
+                            <a href="{{ route('home.blog.detail', ['id' => $blog['id']]) }}">
+                                {{ $blog['title'] }}
+                            </a>
+                        </h2>
                         <p class="blog-post-meta">{{ $blog['created_at'] }}</p>
 
                         <p>{{ mb_substr($blog['info'],0,120).'。。。' }}</p>
@@ -26,6 +30,7 @@
                         </a>
                     </div>
                 @endforeach
+                {{ $blogs->links() }}
             </div><!-- /.blog-main -->
 
             @include('public/reight')

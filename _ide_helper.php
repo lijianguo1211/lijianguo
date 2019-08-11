@@ -3,7 +3,7 @@
 
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.8.22 on 2019-08-02 17:48:40.
+ * Generated for Laravel 5.8.31 on 2019-08-11 17:01:24.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -8331,6 +8331,33 @@ namespace Illuminate\Support\Facades {
                         /** @var \Illuminate\Redis\RedisManager $instance */
                         $instance->disableEvents();
         }
+        
+        /**
+         * Set the default driver.
+         *
+         * @param string $driver
+         * @return void 
+         * @static 
+         */ 
+        public static function setDriver($driver)
+        {
+                        /** @var \Illuminate\Redis\RedisManager $instance */
+                        $instance->setDriver($driver);
+        }
+        
+        /**
+         * Register a custom driver creator Closure.
+         *
+         * @param string $driver
+         * @param \Closure $callback
+         * @return \Illuminate\Redis\RedisManager 
+         * @static 
+         */ 
+        public static function extend($driver, $callback)
+        {
+                        /** @var \Illuminate\Redis\RedisManager $instance */
+                        return $instance->extend($driver, $callback);
+        }
          
     }
 
@@ -12043,6 +12070,19 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
+         * Get a subset of the session data.
+         *
+         * @param array $keys
+         * @return array 
+         * @static 
+         */ 
+        public static function only($keys)
+        {
+                        /** @var \Illuminate\Session\Store $instance */
+                        return $instance->only($keys);
+        }
+        
+        /**
          * Checks if a key exists.
          *
          * @param string|array $key
@@ -14696,353 +14736,36 @@ namespace Illuminate\Support {
  
 }
 
-namespace Dingo\Api\Facade { 
+namespace YuanChao\Editor\Facade { 
 
     /**
      * 
      *
      */ 
-    class API {
+    class EndaEditorFacade {
         
         /**
-         * Attach files to be uploaded.
+         * EndaEditor Upload ImgFile
          *
-         * @param array $files
-         * @return \Dingo\Api\Dispatcher 
+         * @param string $path
+         * @return array 
          * @static 
          */ 
-        public static function attach($files)
+        public static function uploadImgFile($path)
         {
-                        /** @var \Dingo\Api\Dispatcher $instance */
-                        return $instance->attach($files);
+                        return \YuanChao\Editor\EndaEditor::uploadImgFile($path);
         }
         
         /**
-         * Internal request will be authenticated as the given user.
+         * 转换 mark 文本
          *
-         * @param mixed $user
-         * @return \Dingo\Api\Dispatcher 
-         * @static 
-         */ 
-        public static function be($user)
-        {
-                        /** @var \Dingo\Api\Dispatcher $instance */
-                        return $instance->be($user);
-        }
-        
-        /**
-         * Send a JSON payload in the request body.
-         *
-         * @param string|array $content
-         * @return \Dingo\Api\Dispatcher 
-         * @static 
-         */ 
-        public static function json($content)
-        {
-                        /** @var \Dingo\Api\Dispatcher $instance */
-                        return $instance->json($content);
-        }
-        
-        /**
-         * Sets the domain to be used for the request.
-         *
-         * @param string $domain
-         * @return \Dingo\Api\Dispatcher 
-         * @static 
-         */ 
-        public static function on($domain)
-        {
-                        /** @var \Dingo\Api\Dispatcher $instance */
-                        return $instance->on($domain);
-        }
-        
-        /**
-         * Return the raw response object once request is dispatched.
-         *
-         * @return \Dingo\Api\Dispatcher 
-         * @static 
-         */ 
-        public static function raw()
-        {
-                        /** @var \Dingo\Api\Dispatcher $instance */
-                        return $instance->raw();
-        }
-        
-        /**
-         * Only authenticate with the given user for a single request.
-         *
-         * @return \Dingo\Api\Dispatcher 
-         * @static 
-         */ 
-        public static function once()
-        {
-                        /** @var \Dingo\Api\Dispatcher $instance */
-                        return $instance->once();
-        }
-        
-        /**
-         * Set the version of the API for the next request.
-         *
-         * @param string $version
-         * @return \Dingo\Api\Dispatcher 
-         * @static 
-         */ 
-        public static function version($version)
-        {
-                        /** @var \Dingo\Api\Dispatcher $instance */
-                        return $instance->version($version);
-        }
-        
-        /**
-         * Set the parameters to be sent on the next API request.
-         *
-         * @param string|array $parameters
-         * @return \Dingo\Api\Dispatcher 
-         * @static 
-         */ 
-        public static function with($parameters)
-        {
-                        /** @var \Dingo\Api\Dispatcher $instance */
-                        return $instance->with($parameters);
-        }
-        
-        /**
-         * Set a header to be sent on the next API request.
-         *
-         * @param string $key
-         * @param string $value
-         * @return \Dingo\Api\Dispatcher 
-         * @static 
-         */ 
-        public static function header($key, $value)
-        {
-                        /** @var \Dingo\Api\Dispatcher $instance */
-                        return $instance->header($key, $value);
-        }
-        
-        /**
-         * Set a cookie to be sent on the next API request.
-         *
-         * @param \Symfony\Component\HttpFoundation\Cookie $cookie
-         * @return \Dingo\Api\Dispatcher 
-         * @static 
-         */ 
-        public static function cookie($cookie)
-        {
-                        /** @var \Dingo\Api\Dispatcher $instance */
-                        return $instance->cookie($cookie);
-        }
-        
-        /**
-         * Perform API GET request.
-         *
-         * @param string $uri
-         * @param string|array $parameters
-         * @return mixed 
-         * @static 
-         */ 
-        public static function get($uri, $parameters = array())
-        {
-                        /** @var \Dingo\Api\Dispatcher $instance */
-                        return $instance->get($uri, $parameters);
-        }
-        
-        /**
-         * Perform API POST request.
-         *
-         * @param string $uri
-         * @param string|array $parameters
-         * @param string $content
-         * @return mixed 
-         * @static 
-         */ 
-        public static function post($uri, $parameters = array(), $content = '')
-        {
-                        /** @var \Dingo\Api\Dispatcher $instance */
-                        return $instance->post($uri, $parameters, $content);
-        }
-        
-        /**
-         * Perform API PUT request.
-         *
-         * @param string $uri
-         * @param string|array $parameters
-         * @param string $content
-         * @return mixed 
-         * @static 
-         */ 
-        public static function put($uri, $parameters = array(), $content = '')
-        {
-                        /** @var \Dingo\Api\Dispatcher $instance */
-                        return $instance->put($uri, $parameters, $content);
-        }
-        
-        /**
-         * Perform API PATCH request.
-         *
-         * @param string $uri
-         * @param string|array $parameters
-         * @param string $content
-         * @return mixed 
-         * @static 
-         */ 
-        public static function patch($uri, $parameters = array(), $content = '')
-        {
-                        /** @var \Dingo\Api\Dispatcher $instance */
-                        return $instance->patch($uri, $parameters, $content);
-        }
-        
-        /**
-         * Perform API DELETE request.
-         *
-         * @param string $uri
-         * @param string|array $parameters
-         * @param string $content
-         * @return mixed 
-         * @static 
-         */ 
-        public static function delete($uri, $parameters = array(), $content = '')
-        {
-                        /** @var \Dingo\Api\Dispatcher $instance */
-                        return $instance->delete($uri, $parameters, $content);
-        }
-        
-        /**
-         * Get the domain.
-         *
+         * @param $markdownText
          * @return string 
          * @static 
          */ 
-        public static function getDomain()
+        public static function MarkDecode($markdownText)
         {
-                        /** @var \Dingo\Api\Dispatcher $instance */
-                        return $instance->getDomain();
-        }
-        
-        /**
-         * Get the version.
-         *
-         * @return string 
-         * @static 
-         */ 
-        public static function getVersion()
-        {
-                        /** @var \Dingo\Api\Dispatcher $instance */
-                        return $instance->getVersion();
-        }
-        
-        /**
-         * Get the format.
-         *
-         * @return string 
-         * @static 
-         */ 
-        public static function getFormat()
-        {
-                        /** @var \Dingo\Api\Dispatcher $instance */
-                        return $instance->getFormat();
-        }
-        
-        /**
-         * Get the subtype.
-         *
-         * @return string 
-         * @static 
-         */ 
-        public static function getSubtype()
-        {
-                        /** @var \Dingo\Api\Dispatcher $instance */
-                        return $instance->getSubtype();
-        }
-        
-        /**
-         * Set the subtype.
-         *
-         * @param string $subtype
-         * @return void 
-         * @static 
-         */ 
-        public static function setSubtype($subtype)
-        {
-                        /** @var \Dingo\Api\Dispatcher $instance */
-                        $instance->setSubtype($subtype);
-        }
-        
-        /**
-         * Get the standards tree.
-         *
-         * @return string 
-         * @static 
-         */ 
-        public static function getStandardsTree()
-        {
-                        /** @var \Dingo\Api\Dispatcher $instance */
-                        return $instance->getStandardsTree();
-        }
-        
-        /**
-         * Set the standards tree.
-         *
-         * @param string $standardsTree
-         * @return void 
-         * @static 
-         */ 
-        public static function setStandardsTree($standardsTree)
-        {
-                        /** @var \Dingo\Api\Dispatcher $instance */
-                        $instance->setStandardsTree($standardsTree);
-        }
-        
-        /**
-         * Set the prefix.
-         *
-         * @param string $prefix
-         * @return void 
-         * @static 
-         */ 
-        public static function setPrefix($prefix)
-        {
-                        /** @var \Dingo\Api\Dispatcher $instance */
-                        $instance->setPrefix($prefix);
-        }
-        
-        /**
-         * Set the default version.
-         *
-         * @param string $version
-         * @return void 
-         * @static 
-         */ 
-        public static function setDefaultVersion($version)
-        {
-                        /** @var \Dingo\Api\Dispatcher $instance */
-                        $instance->setDefaultVersion($version);
-        }
-        
-        /**
-         * Set the default domain.
-         *
-         * @param string $domain
-         * @return void 
-         * @static 
-         */ 
-        public static function setDefaultDomain($domain)
-        {
-                        /** @var \Dingo\Api\Dispatcher $instance */
-                        $instance->setDefaultDomain($domain);
-        }
-        
-        /**
-         * Set the default format.
-         *
-         * @param string $format
-         * @return void 
-         * @static 
-         */ 
-        public static function setDefaultFormat($format)
-        {
-                        /** @var \Dingo\Api\Dispatcher $instance */
-                        $instance->setDefaultFormat($format);
+                        return \YuanChao\Editor\EndaEditor::MarkDecode($markdownText);
         }
          
     }
@@ -15217,15 +14940,27 @@ namespace Encore\Admin\Facades {
         }
         
         /**
-         * Get current login user.
+         * Get the currently authenticated user.
          *
-         * @return mixed 
+         * @return \App\User|null 
          * @static 
          */ 
         public static function user()
         {
                         /** @var \Encore\Admin\Admin $instance */
                         return $instance->user();
+        }
+        
+        /**
+         * Attempt to get the guard from the local cache.
+         *
+         * @return \Illuminate\Contracts\Auth\Guard|\Illuminate\Contracts\Auth\StatefulGuard 
+         * @static 
+         */ 
+        public static function guard()
+        {
+                        /** @var \Encore\Admin\Admin $instance */
+                        return $instance->guard();
         }
         
         /**
@@ -15399,12 +15134,13 @@ namespace Encore\Admin\Facades {
          * 
          *
          * @param string $script
+         * @param bool $deferred
          * @return array|\Illuminate\Contracts\View\Factory|\Illuminate\View\View 
          * @static 
          */ 
-        public static function script($script = '')
+        public static function script($script = '', $deferred = false)
         {
-                        return \Encore\Admin\Admin::script($script);
+                        return \Encore\Admin\Admin::script($script, $deferred);
         }
         
         /**
@@ -15707,6 +15443,32 @@ namespace Maatwebsite\Excel\Facades {
         public static function extend($concern, $handler, $event = 'Maatwebsite\Excel\Events\BeforeWriting')
         {
                         return \Maatwebsite\Excel\Excel::extend($concern, $handler, $event);
+        }
+        
+        /**
+         * When asserting downloaded, stored, queued or imported, use regular expression
+         * to look for a matching file path.
+         *
+         * @return void 
+         * @static 
+         */ 
+        public static function matchByRegex()
+        {
+                        /** @var \Maatwebsite\Excel\Fakes\ExcelFake $instance */
+                        $instance->matchByRegex();
+        }
+        
+        /**
+         * When asserting downloaded, stored, queued or imported, use regular string
+         * comparison for matching file path.
+         *
+         * @return void 
+         * @static 
+         */ 
+        public static function doNotMatchByRegex()
+        {
+                        /** @var \Maatwebsite\Excel\Fakes\ExcelFake $instance */
+                        $instance->doNotMatchByRegex();
         }
         
         /**
@@ -16502,7 +16264,7 @@ namespace  {
             /**
              * Add a relationship count / exists condition to the query.
              *
-             * @param string $relation
+             * @param string|\Illuminate\Database\Eloquent\Relations\Relation $relation
              * @param string $operator
              * @param int $count
              * @param string $boolean
@@ -16617,6 +16379,134 @@ namespace  {
             {
                                 /** @var \Illuminate\Database\Eloquent\Builder $instance */
                                 return $instance->orWhereDoesntHave($relation, $callback);
+            }
+         
+            /**
+             * Add a polymorphic relationship count / exists condition to the query.
+             *
+             * @param string $relation
+             * @param string|array $types
+             * @param string $operator
+             * @param int $count
+             * @param string $boolean
+             * @param \Closure|null $callback
+             * @return \Illuminate\Database\Eloquent\Builder|static 
+             * @static 
+             */ 
+            public static function hasMorph($relation, $types, $operator = '>=', $count = 1, $boolean = 'and', $callback = null)
+            {
+                                /** @var \Illuminate\Database\Eloquent\Builder $instance */
+                                return $instance->hasMorph($relation, $types, $operator, $count, $boolean, $callback);
+            }
+         
+            /**
+             * Add a polymorphic relationship count / exists condition to the query with an "or".
+             *
+             * @param string $relation
+             * @param string|array $types
+             * @param string $operator
+             * @param int $count
+             * @return \Illuminate\Database\Eloquent\Builder|static 
+             * @static 
+             */ 
+            public static function orHasMorph($relation, $types, $operator = '>=', $count = 1)
+            {
+                                /** @var \Illuminate\Database\Eloquent\Builder $instance */
+                                return $instance->orHasMorph($relation, $types, $operator, $count);
+            }
+         
+            /**
+             * Add a polymorphic relationship count / exists condition to the query.
+             *
+             * @param string $relation
+             * @param string|array $types
+             * @param string $boolean
+             * @param \Closure|null $callback
+             * @return \Illuminate\Database\Eloquent\Builder|static 
+             * @static 
+             */ 
+            public static function doesntHaveMorph($relation, $types, $boolean = 'and', $callback = null)
+            {
+                                /** @var \Illuminate\Database\Eloquent\Builder $instance */
+                                return $instance->doesntHaveMorph($relation, $types, $boolean, $callback);
+            }
+         
+            /**
+             * Add a polymorphic relationship count / exists condition to the query with an "or".
+             *
+             * @param string $relation
+             * @param string|array $types
+             * @return \Illuminate\Database\Eloquent\Builder|static 
+             * @static 
+             */ 
+            public static function orDoesntHaveMorph($relation, $types)
+            {
+                                /** @var \Illuminate\Database\Eloquent\Builder $instance */
+                                return $instance->orDoesntHaveMorph($relation, $types);
+            }
+         
+            /**
+             * Add a polymorphic relationship count / exists condition to the query with where clauses.
+             *
+             * @param string $relation
+             * @param string|array $types
+             * @param \Closure|null $callback
+             * @param string $operator
+             * @param int $count
+             * @return \Illuminate\Database\Eloquent\Builder|static 
+             * @static 
+             */ 
+            public static function whereHasMorph($relation, $types, $callback = null, $operator = '>=', $count = 1)
+            {
+                                /** @var \Illuminate\Database\Eloquent\Builder $instance */
+                                return $instance->whereHasMorph($relation, $types, $callback, $operator, $count);
+            }
+         
+            /**
+             * Add a polymorphic relationship count / exists condition to the query with where clauses and an "or".
+             *
+             * @param string $relation
+             * @param string|array $types
+             * @param \Closure $callback
+             * @param string $operator
+             * @param int $count
+             * @return \Illuminate\Database\Eloquent\Builder|static 
+             * @static 
+             */ 
+            public static function orWhereHasMorph($relation, $types, $callback = null, $operator = '>=', $count = 1)
+            {
+                                /** @var \Illuminate\Database\Eloquent\Builder $instance */
+                                return $instance->orWhereHasMorph($relation, $types, $callback, $operator, $count);
+            }
+         
+            /**
+             * Add a polymorphic relationship count / exists condition to the query with where clauses.
+             *
+             * @param string $relation
+             * @param string|array $types
+             * @param \Closure|null $callback
+             * @return \Illuminate\Database\Eloquent\Builder|static 
+             * @static 
+             */ 
+            public static function whereDoesntHaveMorph($relation, $types, $callback = null)
+            {
+                                /** @var \Illuminate\Database\Eloquent\Builder $instance */
+                                return $instance->whereDoesntHaveMorph($relation, $types, $callback);
+            }
+         
+            /**
+             * Add a polymorphic relationship count / exists condition to the query with where clauses and an "or".
+             *
+             * @param string $relation
+             * @param string|array $types
+             * @param \Closure $callback
+             * @return \Illuminate\Database\Eloquent\Builder|static 
+             * @static 
+             */ 
+            public static function orWhereDoesntHaveMorph($relation, $types, $callback = null)
+            {
+                                /** @var \Illuminate\Database\Eloquent\Builder $instance */
+                                return $instance->orWhereDoesntHaveMorph($relation, $types, $callback);
             }
          
             /**
@@ -17106,16 +16996,16 @@ namespace  {
             /**
              * Add a "where null" clause to the query.
              *
-             * @param string $column
+             * @param string|array $columns
              * @param string $boolean
              * @param bool $not
              * @return \Illuminate\Database\Query\Builder 
              * @static 
              */ 
-            public static function whereNull($column, $boolean = 'and', $not = false)
+            public static function whereNull($columns, $boolean = 'and', $not = false)
             {
                                 /** @var \Illuminate\Database\Query\Builder $instance */
-                                return $instance->whereNull($column, $boolean, $not);
+                                return $instance->whereNull($columns, $boolean, $not);
             }
          
             /**
@@ -18303,13 +18193,13 @@ namespace  {
             /**
              * Dump the current SQL and bindings.
              *
-             * @return void 
+             * @return \Illuminate\Database\Query\Builder 
              * @static 
              */ 
             public static function dump()
             {
                                 /** @var \Illuminate\Database\Query\Builder $instance */
-                                $instance->dump();
+                                return $instance->dump();
             }
          
             /**
@@ -18423,7 +18313,7 @@ namespace  {
 
     class View extends \Illuminate\Support\Facades\View {}
 
-    class API extends \Dingo\Api\Facade\API {}
+    class EndaEditor extends \YuanChao\Editor\Facade\EndaEditorFacade {}
 
     class Admin extends \Encore\Admin\Facades\Admin {}
 

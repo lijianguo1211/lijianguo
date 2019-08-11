@@ -841,7 +841,7 @@ $(function () {
       })
 
     $('#modal-test')
-      .on('shown.bs.modal', function () {
+      .on('modal', function () {
         $('#tooltipTest').bootstrapTooltip('show')
       })
       .modal('show')

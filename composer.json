@@ -21,7 +21,8 @@
         "maatwebsite/laravel-excel-light": "dev-master",
         "overtrue/socialite": "^2.0",
         "predis/predis": "^1.1",
-        "sharemant/laravel-admin-ext-editormd": "^1.0"
+        "sharemant/laravel-admin-ext-editormd": "^1.0",
+        "yuanchao/laravel-5-markdown-editor": "dev-master"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",

@@ -9,6 +9,7 @@
 namespace App\Models\DataModels;
 
 use Encore\Admin\Grid;
+use MarkdownEditor;
 
 /**
  * Notes:php artisan admin:make AskController --model=App\Models\DataModels\AskModel
@@ -36,7 +37,7 @@ class AskModel extends Model
      * 白名单
      * @var array
      */
-    protected $fillable = ['title','id','content','user_id','label'];
+    protected $fillable = ['title', 'id', 'content', 'user_id', 'label'];
 
     /**
      * 添加
@@ -46,10 +47,10 @@ class AskModel extends Model
     public function add(array $data)
     {
         try {
-            $result = $this::create($data);
+            $result = self::create($data);
         } catch (\Exception $e) {
             \Log::error('发布提问失败：'.$e->getMessage());
-            $result = false;
+            $result = ['status' => false, 'message' => $e->getMessage()];
         }
         return $result;
     }
@@ -60,13 +61,20 @@ class AskModel extends Model
      */
     public function getIndexs():array
     {
-        $result = $this->select('ask.title','ask.id','users.username','ask.label','ask.created_at','ask.reading_value')
-            ->join('users','ask.user_id','=','users.id')
+        $result = $this->select(
+            'ask.title',
+            'ask.id',
+            'users.username',
+            'ask.label',
+            'ask.created_at',
+            'ask.reading_value'
+        )
+            ->join('users', 'ask.user_id', '=', 'users.id')
             ->limit(10)
             ->orderBy('created_at','desc')
             ->get()->toArray();
         foreach ($result as $k => $item) {
-            $result[$k]['label'] = explode(',',$item['label']);
+            $result[$k]['label'] = explode(',', $item['label']);
         }
 
         return $result;
@@ -85,12 +93,21 @@ class AskModel extends Model
             \Log::error('阅读量增加失败：'.$e->getMessage());
         }
 
-        $result = $this->select('ask.title','ask.id','ask.content','users.username','ask.label','ask.created_at','ask.reading_value','users.id')
-            ->join('users','ask.user_id','=','users.id')
-            ->where('ask.id','=',$id)
+        $result = $this->select(
+            'ask.title',
+            'ask.id',
+            'ask.content',
+            'users.username',
+            'ask.label',
+            'ask.created_at',
+            'ask.reading_value',
+            'users.id'
+        )
+            ->join('users', 'ask.user_id', '=', 'users.id')
+            ->where('ask.id', '=', $id)
             ->first();
         $result['label'] = explode(',',$result['label']);
-        $result['content'] =  EndaEditor::MarkDecode($result['content']);
+        $result['content'] =  MarkdownEditor::parse($result['content']);
         return $result;
     }
 

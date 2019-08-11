@@ -70,7 +70,7 @@ $(function () {
     var done = assert.async()
 
     $('<div id="modal-test"/>')
-      .on('shown.bs.modal', function () {
+      .on('modal', function () {
         assert.notEqual($('#modal-test').length, 0, 'modal inserted into dom')
         done()
       })
@@ -82,7 +82,7 @@ $(function () {
     var done = assert.async()
 
     $('<div id="modal-test"/>')
-      .on('show.bs.modal', function () {
+      .on('modal', function () {
         assert.ok(true, 'show event fired')
         done()
       })
@@ -94,12 +94,12 @@ $(function () {
     var done = assert.async()
 
     $('<div id="modal-test"/>')
-      .on('show.bs.modal', function (e) {
+      .on('modal', function (e) {
         e.preventDefault()
         assert.ok(true, 'show event fired')
         done()
       })
-      .on('shown.bs.modal', function () {
+      .on('modal', function () {
         assert.ok(false, 'shown event fired')
       })
       .bootstrapModal('show')
@@ -110,12 +110,12 @@ $(function () {
     var done = assert.async()
 
     $('<div id="modal-test"/>')
-      .on('shown.bs.modal', function () {
+      .on('modal', function () {
         assert.ok($('#modal-test').is(':visible'), 'modal visible')
         assert.notEqual($('#modal-test').length, 0, 'modal inserted into dom')
         $(this).bootstrapModal('hide')
       })
-      .on('hidden.bs.modal', function () {
+      .on('modal', function () {
         assert.ok(!$('#modal-test').is(':visible'), 'modal hidden')
         done()
       })
@@ -127,12 +127,12 @@ $(function () {
     var done = assert.async()
 
     $('<div id="modal-test"/>')
-      .on('shown.bs.modal', function () {
+      .on('modal', function () {
         assert.ok($('#modal-test').is(':visible'), 'modal visible')
         assert.notEqual($('#modal-test').length, 0, 'modal inserted into dom')
         $(this).bootstrapModal('toggle')
       })
-      .on('hidden.bs.modal', function () {
+      .on('modal', function () {
         assert.ok(!$('#modal-test').is(':visible'), 'modal hidden')
         done()
       })
@@ -144,12 +144,12 @@ $(function () {
     var done = assert.async()
 
     $('<div id="modal-test"><span class="close" data-dismiss="modal"/></div>')
-      .on('shown.bs.modal', function () {
+      .on('modal', function () {
         assert.ok($('#modal-test').is(':visible'), 'modal visible')
         assert.notEqual($('#modal-test').length, 0, 'modal inserted into dom')
         $(this).find('.close').trigger('click')
       })
-      .on('hidden.bs.modal', function () {
+      .on('modal', function () {
         assert.ok(!$('#modal-test').is(':visible'), 'modal hidden')
         done()
       })
@@ -161,11 +161,11 @@ $(function () {
     var done = assert.async()
 
     $('<div id="modal-test" data-backdrop="false"/>')
-      .on('shown.bs.modal', function () {
+      .on('modal', function () {
         assert.ok($('#modal-test').is(':visible'), 'modal visible')
         $(this).bootstrapModal('hide')
       })
-      .on('hidden.bs.modal', function () {
+      .on('modal', function () {
         assert.ok(!$('#modal-test').is(':visible'), 'modal hidden')
         done()
       })
@@ -177,13 +177,13 @@ $(function () {
     var done = assert.async()
 
     $('<div id="modal-test"><div class="contents"/></div>')
-      .on('shown.bs.modal', function () {
+      .on('modal', function () {
         assert.notEqual($('#modal-test').length, 0, 'modal inserted into dom')
         $('.contents').trigger('click')
         assert.ok($('#modal-test').is(':visible'), 'modal visible')
         $('#modal-test').trigger('click')
       })
-      .on('hidden.bs.modal', function () {
+      .on('modal', function () {
         assert.ok(!$('#modal-test').is(':visible'), 'modal hidden')
         done()
       })
@@ -195,7 +195,7 @@ $(function () {
     var done = assert.async()
 
     $('<div id="modal-test" data-backdrop="false"><div class="contents"/></div>')
-      .on('shown.bs.modal', function () {
+      .on('modal', function () {
         $('#modal-test').trigger('click')
         assert.ok($('#modal-test').is(':visible'), 'modal not hidden')
         done()
@@ -209,7 +209,7 @@ $(function () {
 
     var $div = $('<div id="modal-test"/>')
     $div
-      .on('shown.bs.modal', function () {
+      .on('modal', function () {
         assert.ok($('#modal-test').length, 'modal inserted into dom')
         assert.ok($('#modal-test').is(':visible'), 'modal visible')
         $div.trigger($.Event('keydown', {
@@ -231,7 +231,7 @@ $(function () {
 
     var $div = $('<div id="modal-test"/>')
     $div
-      .on('shown.bs.modal', function () {
+      .on('modal', function () {
         assert.ok($('#modal-test').length, 'modal inserted into dom')
         assert.ok($('#modal-test').is(':visible'), 'modal visible')
         $div.trigger($.Event('keyup', {
@@ -254,11 +254,11 @@ $(function () {
     var triggered
 
     $('<div id="modal-test"><div class="contents"/></div>')
-      .on('shown.bs.modal', function () {
+      .on('modal', function () {
         triggered = 0
         $('#modal-test').trigger('click')
       })
-      .on('hide.bs.modal', function () {
+      .on('modal', function () {
         triggered += 1
         assert.strictEqual(triggered, 1, 'modal hide triggered once')
         done()
@@ -271,11 +271,11 @@ $(function () {
     var done = assert.async()
 
     $('<div id="modal-test" aria-hidden="true"/>')
-      .on('shown.bs.modal', function () {
+      .on('modal', function () {
         assert.notOk($('#modal-test').is('[aria-hidden]'), 'aria-hidden attribute removed')
         $(this).bootstrapModal('hide')
       })
-      .on('hidden.bs.modal', function () {
+      .on('modal', function () {
         assert.ok($('#modal-test').is('[aria-hidden]'), 'aria-hidden attribute added')
         assert.strictEqual($('#modal-test').attr('aria-hidden'), 'true', 'correct aria-hidden="true" added')
         done()
@@ -288,17 +288,17 @@ $(function () {
     var done = assert.async()
 
     $('<div id="modal-test"><div class="contents"><div id="close" data-dismiss="modal"/></div></div>')
-      .one('shown.bs.modal', function () {
+      .one('modal', function () {
         $('#close').trigger('click')
       })
-      .one('hidden.bs.modal', function () {
+      .one('modal', function () {
         // After one open-close cycle
         assert.ok(!$('#modal-test').is(':visible'), 'modal hidden')
         $(this)
-          .one('shown.bs.modal', function () {
+          .one('modal', function () {
             $('#close').trigger('click')
           })
-          .one('hidden.bs.modal', function () {
+          .one('modal', function () {
             assert.ok(!$('#modal-test').is(':visible'), 'modal hidden')
             done()
           })
@@ -314,13 +314,13 @@ $(function () {
     var $toggleBtn = $('<button data-toggle="modal" data-target="#modal-test"/>').appendTo('#qunit-fixture')
 
     $('<div id="modal-test"><div class="contents"><div id="close" data-dismiss="modal"/></div></div>')
-      .on('hidden.bs.modal', function () {
+      .on('modal', function () {
         setTimeout(function () {
           assert.ok($(document.activeElement).is($toggleBtn), 'toggling element is once again focused')
           done()
         }, 0)
       })
-      .on('shown.bs.modal', function () {
+      .on('modal', function () {
         $('#close').trigger('click')
       })
       .appendTo('#qunit-fixture')
@@ -335,20 +335,20 @@ $(function () {
     var $otherBtn = $('<button id="other-btn"/>').appendTo('#qunit-fixture')
 
     $('<div id="modal-test"><div class="contents"><div id="close" data-dismiss="modal"/></div>')
-      .one('show.bs.modal', function (e) {
+      .one('modal', function (e) {
         e.preventDefault()
         $otherBtn.trigger('focus')
         setTimeout($.proxy(function () {
           $(this).bootstrapModal('show')
         }, this), 0)
       })
-      .on('hidden.bs.modal', function () {
+      .on('modal', function () {
         setTimeout(function () {
           assert.ok($(document.activeElement).is($otherBtn), 'focus returned to toggling element')
           done()
         }, 0)
       })
-      .on('shown.bs.modal', function () {
+      .on('modal', function () {
         $('#close').trigger('click')
       })
       .appendTo('#qunit-fixture')
@@ -361,7 +361,7 @@ $(function () {
     var done = assert.async()
 
     $('<div id="modal-test"/>')
-      .on('shown.bs.modal', function () {
+      .on('modal', function () {
         var expectedPadding = $(this).getScrollbarWidth() + 'px'
         var currentPadding = $(this).css('padding-right')
         assert.strictEqual(currentPadding, expectedPadding, 'modal padding should be adjusted while opening')
@@ -377,13 +377,13 @@ $(function () {
     var originalPadding = $body.css('padding-right')
 
     $('<div id="modal-test"/>')
-      .on('hidden.bs.modal', function () {
+      .on('modal', function () {
         var currentPadding = $body.css('padding-right')
         assert.strictEqual(currentPadding, originalPadding, 'body padding should be reset after closing')
         $body.removeAttr('style')
         done()
       })
-      .on('shown.bs.modal', function () {
+      .on('modal', function () {
         var expectedPadding = parseFloat(originalPadding) + $(this).getScrollbarWidth() + 'px'
         var currentPadding = $body.css('padding-right')
         assert.strictEqual(currentPadding, expectedPadding, 'body padding should be adjusted while opening')
@@ -400,12 +400,12 @@ $(function () {
     $body.css('padding-right', originalPadding)
 
     $('<div id="modal-test"/>')
-      .on('hidden.bs.modal', function () {
+      .on('modal', function () {
         assert.strictEqual(typeof $body.data('padding-right'), 'undefined', 'data-padding-right should be cleared after closing')
         $body.removeAttr('style')
         done()
       })
-      .on('shown.bs.modal', function () {
+      .on('modal', function () {
         assert.strictEqual($body.data('padding-right'), originalPadding, 'original body padding should be stored in data-padding-right')
         $(this).bootstrapModal('hide')
       })
@@ -423,7 +423,7 @@ $(function () {
     $('html').css('padding-right', '0px')  // Simulated scrollbar (for PhantomJS)
 
     $('<div id="modal-test"/>')
-      .on('shown.bs.modal', function () {
+      .on('modal', function () {
         var currentPadding = $body.css('padding-right')
         assert.strictEqual(currentPadding, originalPadding, 'body padding should not be adjusted')
         $(this).bootstrapModal('hide')
@@ -443,13 +443,13 @@ $(function () {
     var originalPadding = $element.css('padding-right')
 
     $('<div id="modal-test"/>')
-      .on('hidden.bs.modal', function () {
+      .on('modal', function () {
         var currentPadding = $element.css('padding-right')
         assert.strictEqual(currentPadding, originalPadding, 'fixed element padding should be reset after closing')
         $element.remove()
         done()
       })
-      .on('shown.bs.modal', function () {
+      .on('modal', function () {
         var expectedPadding = parseFloat(originalPadding) + $(this).getScrollbarWidth() + 'px'
         var currentPadding = $element.css('padding-right')
         assert.strictEqual(currentPadding, expectedPadding, 'fixed element padding should be adjusted while opening')
@@ -466,12 +466,12 @@ $(function () {
     $element.css('padding-right', originalPadding)
 
     $('<div id="modal-test"/>')
-      .on('hidden.bs.modal', function () {
+      .on('modal', function () {
         assert.strictEqual(typeof $element.data('padding-right'), 'undefined', 'data-padding-right should be cleared after closing')
         $element.remove()
         done()
       })
-      .on('shown.bs.modal', function () {
+      .on('modal', function () {
         assert.strictEqual($element.data('padding-right'), originalPadding, 'original fixed element padding should be stored in data-padding-right')
         $(this).bootstrapModal('hide')
       })
@@ -485,13 +485,13 @@ $(function () {
     var originalPadding = $element.css('margin-right')
 
     $('<div id="modal-test"/>')
-      .on('hidden.bs.modal', function () {
+      .on('modal', function () {
         var currentPadding = $element.css('margin-right')
         assert.strictEqual(currentPadding, originalPadding, 'sticky element margin should be reset after closing')
         $element.remove()
         done()
       })
-      .on('shown.bs.modal', function () {
+      .on('modal', function () {
         var expectedPadding = parseFloat(originalPadding) - $(this).getScrollbarWidth() + 'px'
         var currentPadding = $element.css('margin-right')
         assert.strictEqual(currentPadding, expectedPadding, 'sticky element margin should be adjusted while opening')
@@ -508,12 +508,12 @@ $(function () {
     $element.css('margin-right', originalPadding)
 
     $('<div id="modal-test"/>')
-      .on('hidden.bs.modal', function () {
+      .on('modal', function () {
         assert.strictEqual(typeof $element.data('margin-right'), 'undefined', 'data-margin-right should be cleared after closing')
         $element.remove()
         done()
       })
-      .on('shown.bs.modal', function () {
+      .on('modal', function () {
         assert.strictEqual($element.data('margin-right'), originalPadding, 'original sticky element margin should be stored in data-margin-right')
         $(this).bootstrapModal('hide')
       })
@@ -527,13 +527,13 @@ $(function () {
     var originalMargin = $element.css('margin-right')
 
     $('<div id="modal-test"/>')
-      .on('hidden.bs.modal', function () {
+      .on('modal', function () {
         var currentMargin = $element.css('margin-right')
         assert.strictEqual(currentMargin, originalMargin, 'navbar-toggler margin should be reset after closing')
         $element.remove()
         done()
       })
-      .on('shown.bs.modal', function () {
+      .on('modal', function () {
         var expectedMargin = parseFloat(originalMargin) + $(this).getScrollbarWidth() + 'px'
         var currentMargin = $element.css('margin-right')
         assert.strictEqual(currentMargin, expectedMargin, 'navbar-toggler margin should be adjusted while opening')
@@ -550,12 +550,12 @@ $(function () {
     $element.css('margin-right', originalMargin)
 
     $('<div id="modal-test"/>')
-      .on('hidden.bs.modal', function () {
+      .on('modal', function () {
         assert.strictEqual(typeof $element.data('margin-right'), 'undefined', 'data-margin-right should be cleared after closing')
         $element.remove()
         done()
       })
-      .on('shown.bs.modal', function () {
+      .on('modal', function () {
         assert.strictEqual($element.data('margin-right'), originalMargin, 'original navbar-toggler margin should be stored in data-margin-right')
         $(this).bootstrapModal('hide')
       })
@@ -569,12 +569,12 @@ $(function () {
     var $style = $('<style>body { padding-right: 42px; }</style>').appendTo('head')
 
     $('<div id="modal-test"/>')
-      .on('hidden.bs.modal', function () {
+      .on('modal', function () {
         assert.strictEqual($body.attr('style').indexOf('padding-right'), -1, 'body does not have inline padding set')
         $style.remove()
         done()
       })
-      .on('shown.bs.modal', function () {
+      .on('modal', function () {
         $(this).bootstrapModal('hide')
       })
       .bootstrapModal('show')
@@ -589,14 +589,14 @@ $(function () {
     $body.css('color', 'red')
 
     $('<div id="modal-test"/>')
-      .on('hidden.bs.modal', function () {
+      .on('modal', function () {
         assert.strictEqual($body[0].style.paddingRight, '', 'body does not have inline padding set')
         assert.strictEqual($body[0].style.color, 'red', 'body still has other inline styles set')
         $body.removeAttr('style')
         $style.remove()
         done()
       })
-      .on('shown.bs.modal', function () {
+      .on('modal', function () {
         $(this).bootstrapModal('hide')
       })
       .bootstrapModal('show')
@@ -610,12 +610,12 @@ $(function () {
     $body.css('padding-right', '5%')
 
     $('<div id="modal-test"/>')
-      .on('hidden.bs.modal', function () {
+      .on('modal', function () {
         assert.strictEqual($body[0].style.paddingRight, '5%', 'body does not have inline padding set')
         $body.removeAttr('style')
         done()
       })
-      .on('shown.bs.modal', function () {
+      .on('modal', function () {
         $(this).bootstrapModal('hide')
       })
       .bootstrapModal('show')
@@ -632,7 +632,7 @@ $(function () {
       .appendTo('#qunit-fixture')
 
     $('#test')
-      .on('click.bs.modal.data-api', function (event) {
+      .on('modal.data-api', function (event) {
         assert.notOk(event.isDefaultPrevented(), 'navigating to href will happen')
 
         setTimeout(function () {
@@ -684,9 +684,9 @@ $(function () {
     var done = assert.async()
     var count = 0
 
-    $('<div id="modal-test"/>').on('shown.bs.modal', function () {
+    $('<div id="modal-test"/>').on('modal', function () {
       count++
-    }).on('hidden.bs.modal', function () {
+    }).on('modal', function () {
       assert.strictEqual(count, 1, 'show() runs only once')
       done()
     })

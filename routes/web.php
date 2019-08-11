@@ -20,6 +20,7 @@ Route::get('github/callback', 'Auth\GithubController@handleProviderCallback');
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');
 Route::post('logout', 'Auth\LoginController@logout')->name('logout');
+Route::get('user/index', 'Auth\UserController@index')->name('user.index');
 
 // Registration Routes...
 Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
@@ -33,9 +34,9 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
 Route::group(['namespace' => 'Home'], function() {
     Route::get('/', 'IndexController@index')->name('home');
-    Route::get('blog/detail/{id}', 'IndexController@details')
+    Route::get('blog/detail/{id}', 'BlogController@show')
         ->where('id', '[0-9]+')->name('home.blog.detail');
-
+    Route::post('markdown/upload', 'ImgController@upload')->name('markdown.img');
     Route::get('questions', 'AskController@index')->name('home.ask.index');
     Route::get('ask/create/index', 'AskController@createIndex')->name('home.ask.create');
     Route::post('ask/add', 'AskController@insert')->name('home.ask.add');
@@ -64,7 +65,7 @@ Route::group(['namespace' => 'Tools', 'prefix' => 'tools'], function(){
 });
 
 //dngo-api
-$api = app('Dingo\Api\Routing\Router');
+/*$api = app('Dingo\Api\Routing\Router');
 $api->version('v1', function ($api) {
     $api->group(['middleware' => 'api.throttle', 'limit' => 100, 'expires' => 5], function($api) {
         //创建一个端点
@@ -76,5 +77,5 @@ $api->version('v1', function ($api) {
         $api->get('users', ['as' => 'users.index', 'uses' => 'App\Api\V1\Controllers\UserController@index']);
         $api->post('users', ['as' => 'users.store', 'uses' => 'App\Api\V1\Controllers\UserController@store']);
     });
-});
+});*/
 

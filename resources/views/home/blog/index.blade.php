@@ -11,9 +11,7 @@
                 <div class="blog-post">
                     <h2 class="blog-post-title">{{ $details['title'] }}</h2>
                     <p class="blog-post-meta">{{ $details['create_at'] }} <a href="#">{{ $details['username'] }}</a></p>
-                    @php
-                        echo $details['content_md']
-                    @endphp
+                    {!! $details['content_md'] !!}
 
                     @if(!empty($comments))
                         <div class="card">

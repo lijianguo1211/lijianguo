@@ -96,9 +96,23 @@ class HeaderModel extends Model
         return $result;
     }
 
+    /**
+     * Notes:得到头部导航
+     * Name: getIndexHeader
+     * User: LiYi
+     * Date: 2019/8/11
+     * Time: 14:15
+     * @param int $type
+     * @return mixed
+     */
     public function getIndexHeader(int $type=0)
     {
-        $result = $this->select('title','url')->where('type','=',$type)->orderBy('priority','DESC')->limit(5)->get()->toArray();
+        $result = $this->select('title','url')
+            ->where('type','=',$type)
+            ->orderBy('priority','DESC')
+            ->limit(5)
+            ->get()
+            ->toArray();
 
         return $result;
     }

@@ -50,7 +50,6 @@ class IndexController extends BaseController
             'header'=>$this->header,
             'right'=>$this->right,
             'value'=>$this->getValue,
-            'result' => $this->headerResult,
             'ask'    => $this->askIndex,
         ]);
     }

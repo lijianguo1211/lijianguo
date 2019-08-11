@@ -176,7 +176,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         Maatwebsite\ExcelLight\LaravelExcelServiceProvider::class,
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
-        Dingo\Api\Provider\LaravelServiceProvider::class,
+        Chenhua\MarkdownEditor\MarkdownEditorServiceProvider::class,
     ],
 
     /*
@@ -227,6 +227,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+        'MarkdownEditor' => Chenhua\MarkdownEditor\Facades\MarkdownEditor::class,
 
     ],
 

@@ -42,6 +42,14 @@ class LoginController extends Controller
         $this->username = $this->findUsername();//email or username
     }
 
+    /**
+     * Notes:查找登陆验证字段
+     * Name: findUsername
+     * User: LiYi
+     * Date: 2019/8/11
+     * Time: 13:54
+     * @return string
+     */
     public function findUsername()
     {
         $login = request()->get('loginType');
@@ -53,17 +61,28 @@ class LoginController extends Controller
         return $fieldType;
     }
 
-
+    /**
+     * Notes:登陆验证字段
+     * Name: username
+     * User: LiYi
+     * Date: 2019/8/11
+     * Time: 13:54
+     * @return string
+     */
     public function username()
     {
         return $this->username;
     }
 
     /**
-     * Handle a login request to the application.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Http\JsonResponse
+     * Notes:Handle a login request to the application.
+     * Name: login
+     * User: LiYi
+     * Date: 2019/8/11
+     * Time: 13:53
+     * @param Request $request
+     * @return \Illuminate\Http\Response|\Symfony\Component\HttpFoundation\Response|void
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function login(Request $request)
     {
@@ -91,10 +110,13 @@ class LoginController extends Controller
     }
 
     /**
-     * Validate the user login request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return void
+     * Notes:Validate the user login request.
+     * Name: validateLogin
+     * User: LiYi
+     * Date: 2019/8/11
+     * Time: 13:53
+     * @param $request
+     * @throws \Illuminate\Validation\ValidationException
      */
     protected function validateLogin($request)
     {
@@ -104,9 +126,17 @@ class LoginController extends Controller
         ]);
     }
 
+    /**
+     * Notes: 显示登陆页面
+     * Name: showLoginForm
+     * User: LiYi
+     * Date: 2019/8/11
+     * Time: 13:53
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function showLoginForm()
     {
         $header = (new HeaderModel())->getIndexHeader();
-        return view('login_home')->with(['header'=>$header]);
+        return view('auth.login_home')->with(['header'=>$header]);
     }
 }

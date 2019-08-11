@@ -12,10 +12,12 @@ function getRouteName()
 
     $number = 0;
     switch ($name) {
-        case '/':
+        case 'home':
             $number = 1;
             break;
-        case 'ask.index':
+        case 'home.ask.index':
+        case 'home.ask.create':
+        case 'home.ask.details':
             $number = 2;
             break;
     }

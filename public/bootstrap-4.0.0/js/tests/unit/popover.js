@@ -368,7 +368,7 @@ $(function () {
       })
 
     $('#modal-test')
-      .on('shown.bs.modal', function () {
+      .on('modal', function () {
         $('#popover-test').bootstrapPopover('show')
       })
       .modal('show')

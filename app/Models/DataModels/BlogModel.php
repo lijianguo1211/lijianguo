@@ -45,52 +45,87 @@ class BlogModel extends Model
         return $this->belongsTo(TagModel::class);
     }
 
-    public function getBlog($admin = false)
+    /**
+     * Notes: blog 列表
+     * Name: getBlog
+     * User: LiYi
+     * Date: 2019/8/11
+     * Time: 13:12
+     * @param int $limit
+     * @return mixed
+     */
+    public function getBlog(int $limit = 10)
     {
+        $data = $this->select(
+            'types.name',
+            'blogs.id',
+            'blogs.title',
+            'blogs.created_at',
+            'blogs.info',
+            'users.username',
+            'blogs.reading_volume',
+            'blogs.info',
+            'blogs.label'
+        )
+            ->join('types', 'blogs.label', '=', 'types.id')
+            ->join('users', 'blogs.user_id', '=', 'users.id')
+            ->where('blogs.delete_status', '=', 0)
+            ->orderBy('blogs.created_at', 'desc')
+            ->paginate($limit);
+        return $data;
+    }
 
-        if ($admin) {
-            $data = $this->select('types.name','blogs.id','blogs.title','blogs.created_at','blogs.info','users.username','blogs.reading_volume','blogs.info','blogs.label')
-                ->join('types','blogs.label','=','types.id')
-                ->join('users','blogs.user_id','=','users.id')
-                ->where('blogs.delete_status','=',0)
-                ->orderBy('blogs.created_at','desc')
-                ->get()
-                ->toArray();
-        } else {
-            $data = $this->select('blogs.reading_volume','types.name','blogs.id','blogs.title','blogs.created_at','blogs.info','users.username')
-                ->join('users','blogs.user_id','=','users.id')
-                ->join('types','blogs.label','=','types.id')
-                ->where('blogs.delete_status','=',0)
-                ->orderBy('blogs.created_at','desc')
-                ->limit(10)
-                ->get()->toArray();
-        }
-
-
+    /**
+     * Notes: 最新发布的文章推荐
+     * Name: getRelease
+     * User: LiYi
+     * Date: 2019/8/11
+     * Time: 13:18
+     * @param int $number
+     * @return mixed
+     */
+    public function getRelease(int $number = 6)
+    {
+        $data = $this->select('title', 'created_at', 'id')
+            ->where('delete_status', '=', 0)
+            ->orderBy('created_at', 'DESC')
+            ->limit(6)
+            ->get()
+            ->toArray();
 
         return $data;
     }
 
-    public function getRelease()
-    {
-        $data = $this->select('title','created_at','id')->where('delete_status','=',0)->orderBy('created_at','DESC')->limit(6)->get()->toArray();
-
-        return $data;
-    }
-
+    /**
+     * Notes: 得到具体的文章
+     * Name: getDetails
+     * User: LiYi
+     * Date: 2019/8/11
+     * Time: 13:19
+     * @param $id
+     * @return mixed
+     */
     public function getDetails($id)
     {
         try {
-            $this::where('id','=',$id)->increment('reading_volume');
+            self::where('id', '=', $id)->increment('reading_volume');
         } catch (\Exception $e) {
             \Log::error('阅读量更新失败');
         }
-        $data = $this->select('blogs.title','blogs.id','blogs.created_at','blogs.user_id','blogs.info','users.username','blog_content.content_md')
-            ->join('blog_content','blogs.id','=','blog_content.blog_id')
-            ->join('users','blogs.user_id','=','users.id')
-            ->where('blogs.id','=',$id)
-            ->where('blog_content.type','=',0)
-            ->where('blogs.delete_status','=',0)
+        $data = $this->select(
+            'blogs.title',
+            'blogs.id',
+            'blogs.created_at',
+            'blogs.user_id',
+            'blogs.info',
+            'users.username',
+            'blog_content.content_md'
+        )
+            ->join('blog_content', 'blogs.id', '=', 'blog_content.blog_id')
+            ->join('users', 'blogs.user_id', '=', 'users.id')
+            ->where('blogs.id', '=', $id)
+            ->where('blog_content.type', '=', 0)
+            ->where('blogs.delete_status', '=', 0)
             ->first();
         return $data;
     }
