@@ -149,3 +149,6 @@ h1, h2, h3, h4, h5, h6 {
 .tools_fanyi_select{
     float: right;
 }
+.col-md-8 > .card > .card-body > .card-text > p > img {
+    width: 100% !important;
+}
