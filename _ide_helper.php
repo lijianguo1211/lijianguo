@@ -3,7 +3,7 @@
 
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.8.31 on 2019-08-11 17:01:24.
+ * Generated for Laravel 5.8.31 on 2019-09-22 22:58:07.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -14736,36 +14736,32 @@ namespace Illuminate\Support {
  
 }
 
-namespace YuanChao\Editor\Facade { 
+namespace Chenhua\MarkdownEditor\Facades { 
 
     /**
      * 
      *
      */ 
-    class EndaEditorFacade {
+    class MarkdownEditor {
         
         /**
-         * EndaEditor Upload ImgFile
+         * 
          *
-         * @param string $path
-         * @return array 
          * @static 
          */ 
-        public static function uploadImgFile($path)
+        public static function upload()
         {
-                        return \YuanChao\Editor\EndaEditor::uploadImgFile($path);
+                        return \Chenhua\MarkdownEditor\MarkdownEditor::upload();
         }
         
         /**
-         * 转换 mark 文本
+         * 
          *
-         * @param $markdownText
-         * @return string 
          * @static 
          */ 
-        public static function MarkDecode($markdownText)
+        public static function parse($markdownText)
         {
-                        return \YuanChao\Editor\EndaEditor::MarkDecode($markdownText);
+                        return \Chenhua\MarkdownEditor\MarkdownEditor::parse($markdownText);
         }
          
     }
@@ -18313,7 +18309,7 @@ namespace  {
 
     class View extends \Illuminate\Support\Facades\View {}
 
-    class EndaEditor extends \YuanChao\Editor\Facade\EndaEditorFacade {}
+    class MarkdownEditor extends \Chenhua\MarkdownEditor\Facades\MarkdownEditor {}
 
     class Admin extends \Encore\Admin\Facades\Admin {}
 
