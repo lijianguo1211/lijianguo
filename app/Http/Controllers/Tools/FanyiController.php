@@ -6,11 +6,7 @@ namespace App\Http\Controllers\Tools;
 
 use App\Exceptions\BaiduTranslate;
 use App\Http\Controllers\BaseController;
-use App\Models\DataModels\AskContentModel;
-use App\Models\DataModels\BlogModel;
 use App\Models\DataModels\HeaderModel;
-use App\Models\DataModels\ImageModel;
-use App\Models\DataModels\RightTopsModel;
 use Illuminate\Http\Request;
 
 class FanyiController extends BaseController
@@ -33,29 +29,31 @@ class FanyiController extends BaseController
      * Notes:
      * Name: index
      * User: LiYi
-     * Date: 2019/6/25
-     * Time: 23:47
+     * Date: 2019/9/29
+     * Time: 22:36
+     * @param HeaderModel $headerModel
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function index()
+    public function index(HeaderModel $headerModel)
     {
-        $header = (new HeaderModel())->getIndexHeader();
+        $header = $headerModel->getIndexHeader();
         return view('tools.index')->with([
             'header'=>$header,
         ]);
     }
 
     /**
-     * Notes: 翻译
+     * Notes:
      * Name: postFanyi
      * User: LiYi
-     * Date: 2019/7/9
-     * Time: 21:55
+     * Date: 2019/9/29
+     * Time: 22:37
+     * @param BaiduTranslate $baiduTranslate
      * @return \Illuminate\Http\JsonResponse
      */
-    public function postFanyi()
+    public function postFanyi(BaiduTranslate $baiduTranslate)
     {
-        $result =(new BaiduTranslate)
+        $result = $baiduTranslate
             ->translate(
                 $this->params['content'],
                 $this->params['to'],

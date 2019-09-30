@@ -9,6 +9,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\DataModels\AskContentModel;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use App\Admin\Controllers\BlogController;
@@ -31,18 +32,18 @@ class CreateRunTable extends Command
     }
 
     /**
-     * Execute the console command.
-     *
-     * @return mixed
+     * Notes:
+     * Name: handle
+     * User: LiYi
+     * Date: 2019/10/1
+     * Time: 0:16
+     * @param AskContentModel $askContentModel
      */
-    public function handle()
+    public function handle(AskContentModel $askContentModel)
     {
-        try {
-            $this->getInstance();
-        } catch (\Exception $e) {
-            $this->error($e->getMessage());
-        }
-
+        $this->info('######## start ########');
+        $askContentModel->updateAck();
+        $this->info('######## end ########');
     }
 
     public function getInstance()

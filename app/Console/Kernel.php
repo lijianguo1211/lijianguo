@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Models\DataModels\AskContentModel;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -28,8 +29,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        $model = new AskContentModel();
+        $schedule->call(function () use ($model) {
+            $model->updateAck();
+        })->daily();
     }
 
     /**

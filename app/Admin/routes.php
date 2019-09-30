@@ -33,4 +33,7 @@ Route::group([
 
     $router->resource('city', CityController::class);
 
+    $router->resource('tools', ToolController::class);
+
+
 });

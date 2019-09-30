@@ -53,15 +53,16 @@ Route::group(['namespace' => 'Home'], function() {
 });
 
 
-Route::group(['namespace' => 'Tools', 'prefix' => 'tools'], function(){
-    Route::get('index', 'FanyiController@index');
-    Route::post('baidu/fanyi', 'FanyiController@postFanyi')->name('baidu.fanyi');
-    Route::get('encode', 'UrlController@index');
-    Route::get('img', 'UrlController@image');
-    Route::post('apiUploadFileImage', 'UrlController@apiUploadFileImage')
+Route::group(['namespace' => 'Tools', 'prefix' => 'tools'], function($route){
+    $route->get('index', 'IndexController@index');
+    $route->get('fanyi', 'FanyiController@index')->name('tools.fanyi');
+    $route->post('baidu/fanyi', 'FanyiController@postFanyi')->name('baidu.fanyi');
+    $route->get('encode', 'UrlController@index');
+    $route->get('img', 'UrlController@image');
+    $route->post('apiUploadFileImage', 'UrlController@apiUploadFileImage')
         ->name('tools.apiUploadFileImage');
-    Route::get('sendToEmailJob', 'UrlController@sendToEmailJob');
-    Route::get('encryption', 'PasswordController@index');
+    $route->get('sendToEmailJob', 'UrlController@sendToEmailJob');
+    $route->get('encryption', 'PasswordController@index');
 });
 
 //dngo-api

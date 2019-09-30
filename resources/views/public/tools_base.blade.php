@@ -18,7 +18,6 @@
 
     <!-- Custom styles for this template -->
     <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
-    <link href="{{ url('/css/blog.css') }}" rel="stylesheet">
     <link href="{{ url('/css/app.css') }}" rel="stylesheet">
     @yield('css')
 </head>
@@ -30,16 +29,11 @@
 
 @yield('content')
 
-@include('public/footer')
+<footer-component></footer-component>
 {{--foot--}}
 
 
-{{--<script src="{{ url('js/jquery.3.js') }}" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>--}}
-<script src="{{ url('js/jquery-3.1.1.js') }}"></script>
-{{--<script>window.jQuery || document.write('<script src="{{ url('/bootstrap-4.0.0/assets/js/vendor/jquery-slim.min.js') }}"><\/script>')</script>--}}
-<script src="{{ url('/bootstrap-4.0.0/assets/js/vendor/popper.min.js') }}"></script>
-<script src="{{URL::asset('/bootstrap-4.0.0/dist/js/bootstrap.js')}}"></script>
-<script src="{{ url('/bootstrap-4.0.0/assets/js/vendor/holder.min.js') }}"></script>
+<script src="{{mix("js/app.js")}}"></script>
 <script>
     Holder.addTheme('thumb', {
         bg: '#55595c',

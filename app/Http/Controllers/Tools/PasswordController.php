@@ -23,9 +23,18 @@ class PasswordController
         $this->params = $request->all();
     }
 
-    public function index()
+    /**
+     * Notes:
+     * Name: index
+     * User: LiYi
+     * Date: 2019/9/29
+     * Time: 22:37
+     * @param HeaderModel $headerModel
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function index(HeaderModel $headerModel)
     {
-        $header = (new HeaderModel())->getIndexHeader();
+        $header = $headerModel->getIndexHeader();
         return view('tools.password')->with([
             'header'=>$header,
         ]);
